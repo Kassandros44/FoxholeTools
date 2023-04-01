@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<StockpileContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Stockpiles>
+    <Stockpile Name="t" Location="t" Passcode="888888" />
+    <Stockpile Name="Kasspile" Location="POR" Passcode="125478" />
+    <Stockpile Name="y" Location="y" Passcode="324598" />
+  </Stockpiles>
+</StockpileContainer>

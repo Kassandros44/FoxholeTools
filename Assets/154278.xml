@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<CrateContainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Crates>
+    <Crate Name="Loughcaster" Amount="0" />
+    <Crate Name="Blakerow" Amount="0" />
+    <Crate Name="7.62mm" Amount="0" />
+    <Crate Name="Fiddler" Amount="0" />
+    <Crate Name="Lair" Amount="0" />
+    <Crate Name="9mm" Amount="0" />
+    <Crate Name="Storm Rifle" Amount="0" />
+    <Crate Name="Booker" Amount="0" />
+    <Crate Name="7.92mm" Amount="0" />
+    <Crate Name="ConfettiCannon" Amount="0" />
+    <Crate Name="Buckshot" Amount="0" />
+    <Crate Name="Cascadier" Amount="0" />
+    <Crate Name="8mm" Amount="0" />
+    <Crate Name="Revolver" Amount="0" />
+    <Crate Name=".44" Amount="0" />
+    <Crate Name="Bonesaw" Amount="0" />
+    <Crate Name="Mounted Bonesaw" Amount="0" />
+    <Crate Name="ATRPG Indirect" Amount="0" />
+    <Crate Name="Neville AT Rifle" Amount="0" />
+    <Crate Name="20mm" Amount="0" />
+    <Crate Name="Cutler Launcher" Amount="0" />
+    <Crate Name="RPG Shell" Amount="0" />
+    <Crate Name="Malone" Amount="0" />
+    <Crate Name="12.7mm" Amount="0" />
+    <Crate Name="Clancy-Raca" Amount="0" />
+    <Crate Name="8.5mm" Amount="0" />
+    <Crate Name="Mortar" Amount="0" />
+    <Crate Name="Mortar Shell" Amount="0" />
+    <Crate Name="Harpa" Amount="0" />
+    <Crate Name="Green Ash" Amount="0" />
+    <Crate Name="Mammon" Amount="0" />
+    <Crate Name="AT Sticky Grenade" Amount="0" />
+    <Crate Name="White Ash" Amount="0" />
+    <Crate Name="Smoke Grenade" Amount="0" />
+    <Crate Name="Bayonet" Amount="0" />
+    <Crate Name="AT Landmine" Amount="0" />
+    <Crate Name="Satchel Charge" Amount="0" />
+    <Crate Name="30mm" Amount="0" />
+    <Crate Name="40mm" Amount="0" />
+    <Crate Name="68mm" Amount="0" />
+    <Crate Name="120mm" Amount="0" />
+    <Crate Name="150mm" Amount="0" />
+    <Crate Name="250mm" Amount="0" />
+    <Crate Name="300mm" Amount="0" />
+    <Crate Name="Binoculars" Amount="0" />
+    <Crate Name="Gas Mask" Amount="0" />
+    <Crate Name="Gas Mask Filter" Amount="0" />
+    <Crate Name="Radio" Amount="0" />
+    <Crate Name="Radio Backpack" Amount="0" />
+    <Crate Name="Shovel" Amount="0" />
+    <Crate Name="Sledge Hammer" Amount="0" />
+    <Crate Name="Tripod" Amount="0" />
+    <Crate Name="Wrench" Amount="0" />
+    <Crate Name="First Aid Kit" Amount="0" />
+    <Crate Name="Bandages" Amount="0" />
+    <Crate Name="Trauma Kit" Amount="0" />
+    <Crate Name="Blood Plasma" Amount="0" />
+    <Crate Name="Soldier Supplies" Amount="0" />
+    <Crate Name="Garrison Supplies" Amount="0" />
+    <Crate Name="Bunker Supplies" Amount="0" />
+    <Crate Name="Aluminium Alloy" Amount="0" />
+    <Crate Name="Iron Alloy" Amount="0" />
+    <Crate Name="Basic Matierals" Amount="0" />
+    <Crate Name="Explosive Maierals" Amount="0" />
+    <Crate Name="Refined Matierals" Amount="0" />
+    <Crate Name="Heavy Explosive Matierals" Amount="0" />
+    <Crate Name="Diesel" Amount="0" />
+    <Crate Name="Petrol" Amount="0" />
+  </Crates>
+  <Logs />
+</CrateContainer>

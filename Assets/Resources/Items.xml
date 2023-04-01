@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<ItemsContainer>
+  <Items>
+    <Item Name="Loughcaster" Image="Loughcaster"/>
+    <Item Name="Blakerow" Image="Blakerow"/>
+    <Item Name="7.62mm" Image="Ammo/7.62mm" />
+    <Item Name="Fiddler" Image="Fiddler"/>
+    <Item Name="Lair" Image="Lair"/>
+    <Item Name="9mm" Image="Ammo/9mm" />
+    <Item Name="Storm Rifle" Image="Aalto"/>
+    <Item Name="Booker" Image="Booker"/>
+    <Item Name="7.92mm" Image="Ammo/7.92mm" />
+    <Item Name="ConfettiCannon" Image="Shotgun"/>
+    <Item Name="Buckshot" Image="Ammo/Buckshot" />
+    <Item Name="Cascadier" Image="Cascadier"/>
+    <Item Name="8mm" Image="Ammo/8mm" />
+    <Item Name="Revolver" Image="Revolver"/>
+    <Item Name=".44" Image="Ammo/44" />
+    <Item Name="Bonesaw" Image="Bonesaw"/>
+    <Item Name="Mounted Bonesaw" Image="MountedBonesaw"/>
+    <Item Name="ATRPG Indirect" Image="Ammo/ATRPGIndirect" />
+    <Item Name="Neville AT Rifle" Image="Neville"/>
+    <Item Name="20mm" Image="Ammo/20mm" />
+    <Item Name="Cutler Launcher" Image="Cutler"/>
+    <Item Name="RPG Shell" Image="Ammo/RPGShell" />
+    <Item Name="Malone" Image="Malone"/>
+    <Item Name="12.7mm" Image="Ammo/12.7mm" />
+    <Item Name="Clancy-Raca" Image="ClancyRaca"/>
+    <Item Name="8.5mm" Image="Ammo/8.5mm" />
+    <Item Name="Mortar" Image="Mortar"/>
+    <Item Name="Mortar Shell" Image="Ammo/MortarShell" />
+    <Item Name="Harpa" Image="Grenade"/>
+    <Item Name="Green Ash" Image="GreenAsh"/>
+    <Item Name="Mammon" Image="Mammon"/>
+    <Item Name="AT Sticky Grenade" Image="Sticky"/>
+    <Item Name="White Ash" Image="WhiteAsh"/>
+    <Item Name="Smoke Grenade" Image="SmokeGrenade"/>
+    <Item Name="Bayonet" Image="Bayonet"/>
+    <Item Name="AT Landmine" Image="LandMine"/>
+    <Item Name="Satchel Charge" Image="Satchel"/>
+    <Item Name="30mm" Image="Ammo/30mm" />
+    <Item Name="40mm" Image="Ammo/40mm" />
+    <Item Name="68mm" Image="Ammo/68mm" />
+    <Item Name="120mm" Image="Ammo/120mm" />
+    <Item Name="150mm" Image="Ammo/150mm" />
+    <Item Name="250mm" Image="Ammo/250mm" />
+    <Item Name="300mm" Image="Ammo/300mm" />
+    <Item Name="Binoculars" Image="Utility/Binoculars" />
+    <Item Name="Gas Mask" Image="Utility/GasMask" />
+    <Item Name="Gas Mask Filter" Image="Utility/Filter" />
+    <Item Name="Radio" Image="Utility/Radio" />
+    <Item Name="Radio Backpack" Image="Utility/RadioBackpack" />
+    <Item Name="Shovel" Image="Utility/Shovel" />
+    <Item Name="Sledge Hammer" Image="Utility/SledgeHammer" />
+    <Item Name="Tripod" Image="Utility/Tripod" />
+    <Item Name="Wrench" Image="Utility/Wrench" />
+    <Item Name="First Aid Kit" Image="Medical/FirstAidKit" />
+    <Item Name="Bandages" Image="Medical/Bandages" />
+    <Item Name="Trauma Kit" Image="Medical/TraumaKit" />
+    <Item Name="Blood Plasma" Image="Medical/BloodPlasma" />
+    <Item Name="Soldier Supplies" Image="Supplies/SS" />
+    <Item Name="Garrison Supplies" Image="Supplies/GSup" />
+    <Item Name="Bunker Supplies" Image="Supplies/BSup" />
+    <Item Name="Aluminium Alloy" Image="Supplies/AlumAlloy" />
+    <Item Name="Iron Alloy" Image="Supplies/IronAlloy" />
+    <Item Name="Basic Matierals" Image="Supplies/BMats" />
+    <Item Name="Explosive Maierals" Image="Supplies/EMats" />
+    <Item Name="Refined Matierals" Image="Supplies/RMats" />
+    <Item Name="Heavy Explosive Matierals" Image="Supplies/HEMats" />
+    <Item Name="Diesel" Image="Supplies/Diesel" />
+    <Item Name="Petrol" Image="Supplies/Petrol" />
+  </Items>
+</ItemsContainer>

@@ -1,0 +1,351 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Mirror;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
+using System;
+
+public class User : NetworkBehaviour
+{
+
+    [SerializeField]
+    public UIManager uIManager;
+    public MapUIManager mapUIManager;
+
+    [SerializeField]
+    private NetworkManager networkManager;
+
+    public UserXml userXml;
+
+    public StockpileXml currentlyViewedStockpile;
+
+    public DataManager dataManager;
+
+    private void Start() {
+
+        if(isLocalPlayer){
+
+            uIManager = GameObject.Find("AppUICanvas").GetComponent<UIManager>();
+            mapUIManager = GameObject.Find("MapContainer").GetComponent<MapUIManager>();
+            networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+            LocalUser.SetLocalUser();
+
+
+            userXml = new UserXml();
+            StartDataManager();
+            userXml.username = uIManager.username;
+
+            CreateUser(userXml.username, userXml);
+            RequestStockpileListUpdate();
+
+        }
+
+    }
+
+    [Server]
+    private void SaveData(){
+
+        dataManager.Save(Path.Combine(Application.persistentDataPath, "serverdata.xml"));
+
+    }
+
+    [Server]
+    private DataManager LoadData(){
+
+        return(DataManager.Load(Path.Combine(Application.persistentDataPath, "serverdata.xml")));
+
+    }
+
+    [Command]
+    private void StartDataManager(){
+
+        dataManager = new DataManager();
+
+    }
+
+    [Command]
+    void CreateUser(string username, UserXml userXml){
+
+        dataManager = LoadData();
+
+        ReturnConnection(username);
+        UpdateMapPins(dataManager);
+
+        foreach (var item in dataManager.userData.Users){
+
+            if(item.username == username){
+                return;
+            }
+            
+        }
+
+        dataManager.userData.Users.Add(userXml);
+        SaveData();
+        Debug.Log(username + " Connected");
+
+    }
+
+    [Command]
+    public void ClientDisconnected(string username){
+
+        Debug.Log(username + " Disconnected");
+
+    }
+
+    [Command]
+    public void AddStockpileOnServer(StockpileXml stockpile){
+
+        dataManager.stockpileData.Stockpiles.Add(stockpile);
+        CreateCrateListOnServer(stockpile);
+        
+        SaveData();
+
+        UpdateStockpileList(dataManager);
+
+    }
+
+    [Server]
+    public void CreateCrateListOnServer(StockpileXml stockpile){
+
+            var itemCollection = ItemContainer.Load();
+
+            foreach (var cItem in itemCollection.Items) {
+
+                Crate crate = new Crate();
+                crate.name = cItem.name;
+                crate.amount = 0;
+                stockpile.crates.Add(crate);
+
+            }
+
+        SaveData();
+        Debug.Log(stockpile.name + " was Saved");
+
+    }
+
+
+
+    [Command]
+    public void RequestStockpileListUpdate(){
+
+        if(File.Exists(Path.Combine(Application.persistentDataPath, "serverdata.xml"))){
+
+            UpdateStockpileList(DataManager.Load(Path.Combine(Application.persistentDataPath, "serverdata.xml")));
+
+        } else {
+
+            return;
+
+        }
+
+    }
+
+    [Command]
+    public void RequestStockpileData(string passcode){
+
+
+
+        foreach (var item in dataManager.stockpileData.Stockpiles)
+        {
+            Debug.Log(item.name + " " + item.passcode);
+            if(item.passcode == passcode){
+                UpdateStockpileContent(item);
+            }
+
+        }
+
+    }
+
+    [Command]
+    public void AddCratesToStockpile(StockpileXml stockpile, int index, int num, string username){
+
+        foreach (var item in stockpile.crates) {
+
+            Debug.Log(stockpile.crates.IndexOf(item) + "--" + index);
+
+            if(stockpile.crates.IndexOf(item) == index){
+
+                item.amount += num;
+                stockpile.Logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Added", item.name, num.ToString()));
+                Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "added" + ": " + num + " " + item.name + " crates");
+
+            }
+
+        }
+
+        foreach (var item in dataManager.stockpileData.Stockpiles)
+        {
+            if(item.passcode == stockpile.passcode){
+                item.crates = stockpile.crates;
+                item.Logs = stockpile.Logs;
+            }
+        }
+        SaveData();
+        UpdateStockpileContent(stockpile);
+        
+    }
+
+    [Command]
+    public void RemoveCratesFromStockpile(StockpileXml stockpile, int index, int num, string username){
+
+        foreach (var item in stockpile.crates) {
+            
+            if(stockpile.crates.IndexOf(item) == index){
+
+                item.amount -= num;
+                stockpile.Logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Removed", item.name, num.ToString()));
+                Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "removed" + ": " + num + " " + item.name + " crates");
+
+            }
+
+        }
+
+        foreach (var item in dataManager.stockpileData.Stockpiles)
+        {
+            if(item.passcode == stockpile.passcode){
+                item.crates = stockpile.crates;
+                item.Logs = stockpile.Logs;
+            }
+        }
+
+        SaveData();
+        UpdateStockpileContent(stockpile);
+
+    }
+
+    [Command]
+    public void SetCratesInStockpile(StockpileXml stockpile, int index, int num, string username){
+
+        foreach (var item in stockpile.crates) {
+            
+            if(stockpile.crates.IndexOf(item) == index){
+
+                item.amount = num;
+                stockpile.Logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Set", item.name, num.ToString()));
+                Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "set" + ": " + num + " " + item.name + " crates");
+
+            }
+
+        }
+
+        foreach (var item in dataManager.stockpileData.Stockpiles)
+        {
+            if(item.passcode == stockpile.passcode){
+                item.crates = stockpile.crates;
+                item.Logs = stockpile.Logs;
+            }
+        }
+
+        SaveData();
+        UpdateStockpileContent(stockpile);
+
+    }
+
+    [Command]
+    public void AddRequestData(Vector3 point){
+        
+        Debug.Log("pin " + point.x);
+
+        dataManager = LoadData();
+
+        RequestXml newReq = new RequestXml();
+        newReq.mapPinCoords = new float[3] {point.x, point.y, point.z};
+
+        dataManager.requestData.Requests.Add(newReq);
+
+        SaveData();
+
+    }
+
+    RequestXml request;
+
+    [Command]
+    public void GenerateNewRequest(){
+        request = new RequestXml();
+    }
+
+    [Command]
+    public void AddNewRequestItem(int index, int amount, int priority){
+        request.itemList.Add(new ItemListData(index, amount, priority));
+    }
+
+    [Command]
+    public void CreateRequest(string location){
+
+        request.location = location;
+        request.username = uIManager.username;
+        dataManager.requestData.Requests.Add(request);
+
+        SaveData();
+
+    }
+
+    [Command]
+    public void AddMapPin(Vector3 point, int pinType){
+
+        MapPinXml newMapPin = new MapPinXml();
+        newMapPin.mapPinCoords = new float[3] {point.x, point.y, point.z};
+        newMapPin.pinType = pinType;
+
+        dataManager.mapPinData.MapPins.Add(newMapPin);
+
+        SaveData();
+        UpdateMapPins(dataManager);
+
+    }
+
+    [TargetRpc]
+    void ReturnConnection(string username){
+
+        Debug.Log(username);
+        uIManager.usernameText.text = username;
+
+    }
+
+    [TargetRpc]
+    void UpdateStockpileList(DataManager dataManager){
+
+        for (int i = 0; i < uIManager.listContent.transform.childCount; i++) {
+            
+            Destroy(uIManager.listContent.transform.GetChild(i).gameObject);
+
+        }
+
+        foreach (var item in dataManager.stockpileData.Stockpiles) {
+            
+            GameObject listItem = Instantiate(uIManager.stockpileListItem, uIManager.listContent.transform);
+            listItem.GetComponent<StockpileListItem>().SetItemUI(item);
+
+        }
+
+    }
+
+    [TargetRpc]
+    public void UpdateStockpileContent(StockpileXml stockpile){
+        
+        currentlyViewedStockpile = stockpile;
+        Debug.Log(currentlyViewedStockpile.name);
+
+        for (int i = 0; i < stockpile.crates.Count; i++) {
+            
+            uIManager.SetCrateAmount(stockpile.crates[i].amount, i);
+
+        }
+
+    }
+
+    [ClientRpc]
+    public void UpdateMapPins(DataManager data){
+
+        mapUIManager.ClearMapPins();
+
+        foreach (var item in data.mapPinData.MapPins)
+        {
+            mapUIManager.CreateMapPin(new Vector3(item.mapPinCoords[0], item.mapPinCoords[1], item.mapPinCoords[2]), item.pinType);
+        }
+
+    }
+
+}
