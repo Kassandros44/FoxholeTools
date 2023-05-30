@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
 using System.Xml.Serialization;
+using System;
 
-
+[Serializable]
 public class StockpileXml {
 
     [XmlAttribute("Name")]

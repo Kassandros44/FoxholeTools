@@ -39,6 +39,7 @@ public class User : NetworkBehaviour
 
             CreateUser(userXml.username, userXml);
             RequestStockpileListUpdate();
+            UpdateRequestList();
 
         }
 
@@ -48,6 +49,7 @@ public class User : NetworkBehaviour
     private void SaveData(){
 
         dataManager.Save(Path.Combine(Application.persistentDataPath, "serverdata.xml"));
+        dataManager.JSave(dataManager);
 
     }
 
@@ -243,6 +245,7 @@ public class User : NetworkBehaviour
 
     }
 
+    //request code
     [Command]
     public void AddRequestData(Vector3 point){
         
@@ -258,7 +261,7 @@ public class User : NetworkBehaviour
         SaveData();
 
     }
-
+    
     RequestXml request;
 
     [Command]
@@ -272,16 +275,43 @@ public class User : NetworkBehaviour
     }
 
     [Command]
-    public void CreateRequest(string location){
+    public void CreateRequest(string location, string username){
 
         request.location = location;
-        request.username = uIManager.username;
+        request.username = username;
+        request.timeStamp = DateTime.UtcNow.ToString();
         dataManager.requestData.Requests.Add(request);
 
         SaveData();
 
     }
 
+    [Command]
+    public void UpdateRequestList(){
+
+        LoadRequestData(LoadData());
+
+    }
+
+    [TargetRpc]
+    public void LoadRequestData(DataManager data){
+
+        for(int i = 0; i < uIManager.requestContent.transform.childCount; i++){
+
+            Destroy(uIManager.requestContent.transform.GetChild(i).gameObject);
+
+        }
+
+        foreach (var item in data.requestData.Requests) {
+            
+            GameObject listItem = Instantiate(uIManager.requestListItem, uIManager.requestContent.transform);
+            listItem.GetComponent<RequestElement>().SetElementUI(item);
+
+        }
+
+    }
+
+    //map pin code
     [Command]
     public void AddMapPin(Vector3 point, int pinType){
 

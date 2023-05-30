@@ -9,12 +9,18 @@ public class MapMarkerWindow : MonoBehaviour
     public MapMarkerInfo data;
     public Vector2 position;
     public Text titleText;
+
     [SerializeField]
     private GameObject requestPopup;
 
+    [SerializeField]
+    private User user;
+
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
+
+        user = LocalUser.GetUserComponent();
+
         if(data != null){
            titleText.text = data.Text; 
         } else {

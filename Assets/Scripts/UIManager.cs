@@ -40,10 +40,13 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     public Transform tabContent;
     public GameObject stockpileListItem;
+    public GameObject requestListItem;
     public GameObject listContent;
     public GameObject itemContent;
+    public GameObject requestContent;
     public GameObject logWindow;
     public GameObject mapMarkerWindow;
+    public GameObject orderlistScrollview;
 
     public string username;
 
@@ -238,6 +241,7 @@ public class UIManager : MonoBehaviour {
         loginScreen.SetActive(false);
         manager.StartClient();
         username = usernameField.text;
+        LocalUser.SetLocalUsername(username);
 
     }
 

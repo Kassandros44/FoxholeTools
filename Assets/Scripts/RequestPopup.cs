@@ -22,11 +22,14 @@ public class RequestPopup : MonoBehaviour
     private ToggleGroup toggleGroup;
     [SerializeField]
     private GameObject lowProContent, medProContent, highProContent;
+    [SerializeField]
+    private UIManager uIManager;
 
     // Start is called before the first frame update
     void Start()
     {
         locationText.text = location;
+        uIManager = GameObject.Find("AppUICanvas").GetComponent<UIManager>();
 
         GenerateItems();
     }
@@ -45,6 +48,8 @@ public class RequestPopup : MonoBehaviour
     List<ItemListData> itemListDatas = new List<ItemListData>();
 
     public void Submit(){
+
+        User user = LocalUser.GetLocalUser().GetComponent<User>();
 
         for (int i = 0; i < lowProContent.transform.childCount; i++)
         {
@@ -68,14 +73,15 @@ public class RequestPopup : MonoBehaviour
 
         }
 
-        LocalUser.GetLocalUser().GetComponent<User>().GenerateNewRequest();
+        user.GenerateNewRequest();
 
         foreach (var item in itemListDatas)
         {
-            LocalUser.GetLocalUser().GetComponent<User>().AddNewRequestItem(item.index, item.amount, item.priority);
+            user.AddNewRequestItem(item.index, item.amount, item.priority);
         }
 
-        LocalUser.GetLocalUser().GetComponent<User>().CreateRequest(location);
+        user.CreateRequest(location, LocalUser.GetUsername());
+        user.UpdateRequestList();
 
         Destroy(this.gameObject);
 
