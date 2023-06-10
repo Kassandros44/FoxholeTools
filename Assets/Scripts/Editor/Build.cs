@@ -20,7 +20,8 @@ public class BuildScript
         buildPlayerOptions.scenes = new[] { "Assets/Scenes/MainApp.unity" };
         buildPlayerOptions.locationPathName = "Builds/Windows/Server/Server.exe";
         buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
-        buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.EnableHeadlessMode;
+        buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
+        buildPlayerOptions.subtarget = (int)StandaloneBuildSubtarget.Server;
 
         Console.WriteLine("Building Server (Windows)...");
         BuildPipeline.BuildPlayer(buildPlayerOptions);
@@ -34,7 +35,8 @@ public class BuildScript
         buildPlayerOptions.scenes = new[] { "Assets/Scenes/MainApp.unity" };
         buildPlayerOptions.locationPathName = "Builds/Linux/Server/Server.x86_64";
         buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
-        buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.EnableHeadlessMode;
+        buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
+        buildPlayerOptions.subtarget = (int)StandaloneBuildSubtarget.Server;
 
         Console.WriteLine("Building Server (Linux)...");
         BuildPipeline.BuildPlayer(buildPlayerOptions);

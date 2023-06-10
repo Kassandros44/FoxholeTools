@@ -10,10 +10,13 @@ public class UserXml {
 
     [XmlAttribute("Username")]
     public string username;
+    [XmlAttribute("Passkey")]
+    private string passkey;
 
     public UserXml(){
 
         username = "Default";
+        passkey = "";
 
     }
 

@@ -2,11 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Mirror;
+using TMPro;
 
 public class UIManager : MonoBehaviour {
+
+    #region UI Manager Properties
+    [SerializeField]
+    private GameObject stockpileTab;
+    [SerializeField]
+    private GameObject requestsTab;
 
     [SerializeField]
     private GameObject addStockpileWindow;
@@ -24,13 +32,16 @@ public class UIManager : MonoBehaviour {
     private NetworkManager manager;
 
     [SerializeField]
-    private InputField usernameField;
+    public TMP_InputField usernameField;
+
+    [SerializeField]
+    private TMP_InputField passkeyField;
 
     [SerializeField]
     private Text connectionText;
 
     [SerializeField]
-    public Text usernameText;
+    public TMP_Text usernameText;
 
     [SerializeField]
     private GameObject itemButton;
@@ -44,7 +55,7 @@ public class UIManager : MonoBehaviour {
     public GameObject listContent;
     public GameObject itemContent;
     public GameObject requestContent;
-    public GameObject logWindow;
+    public GameObject logWindow; //Look into why this even exists
     public GameObject mapMarkerWindow;
     public GameObject orderlistScrollview;
 
@@ -52,7 +63,9 @@ public class UIManager : MonoBehaviour {
 
     public bool isUIOverride;
     public ItemContainer itemContainer;
+    #endregion
 
+    #region Tool UI Functions
     public Transform GetCurrentTab(){
         return currentTab;
     }
@@ -69,13 +82,14 @@ public class UIManager : MonoBehaviour {
 
         GenerateItems();
         
+        stockpileTab.SetActive(true);
+        requestsTab.SetActive(false);
 
     }
 
     private void SpawnMapMenu_OnRightMouseDown(object sender, EventArgs e){
 
         Debug.Log("Message from Canvas UI");
-        
 
     }
 
@@ -238,9 +252,11 @@ public class UIManager : MonoBehaviour {
 
     public void Login(){
 
+        username = usernameField.text;
+        Debug.Log(usernameField.text);
+        Debug.Log(usernameField.text.Length);
         loginScreen.SetActive(false);
         manager.StartClient();
-        username = usernameField.text;
         LocalUser.SetLocalUsername(username);
 
     }
@@ -291,6 +307,158 @@ public class UIManager : MonoBehaviour {
         itemContent.transform.GetChild(i).GetComponentInChildren<Text>().text = amount.ToString();
 
     }
-
+    #endregion
 }
 
+
+#region Editor Code
+#if UNITY_EDITOR
+[CustomEditor(typeof(UIManager))]
+public class UIManagerEditor : Editor {
+
+    #region Serialized Properties
+    SerializedProperty m_NetworkManagerProp;
+    SerializedProperty m_TabContentProp;
+    SerializedProperty m_LocalUsernameProp;
+    SerializedProperty m_IsUIOverrideProp;
+    SerializedProperty m_StockpileTabProp;
+    SerializedProperty m_RequestsTabProp;
+    SerializedProperty m_AddStockpileWindowProp;
+    SerializedProperty m_ItemInteractWindowProp;
+    SerializedProperty m_StockpileLogWindowProp;
+    SerializedProperty m_MapMarkerWindowProp;
+    SerializedProperty m_LoginPanelProp;
+    SerializedProperty m_UsernameFieldProp;
+    SerializedProperty m_PasskeyFieldProp;
+    SerializedProperty m_ItemButtonProp;
+    SerializedProperty m_ConnectionTextProp;
+    SerializedProperty m_UsernameTextProp;
+    SerializedProperty m_StockpileListItemProp;
+    SerializedProperty m_RequestListItemProp;
+    SerializedProperty m_StockpileScrollContentProp;
+    SerializedProperty m_ItemScrollContentProp;
+    SerializedProperty m_RequestScrollContentProp;
+    #endregion
+
+    bool showTabs = false;
+    bool showWindows = false;
+    bool showPanels = false;
+    bool showInputFields = false;
+    bool showButtons = false;
+    bool showText = false;
+    bool showListItems = false;
+    bool showScrollContent = false;
+
+    void OnEnable() {
+
+        m_NetworkManagerProp = serializedObject.FindProperty("manager");
+        m_TabContentProp = serializedObject.FindProperty("tabContent");
+        m_LocalUsernameProp = serializedObject.FindProperty("username");
+        m_IsUIOverrideProp = serializedObject.FindProperty("isUIOverride");
+
+        //Tabs
+        m_StockpileTabProp = serializedObject.FindProperty("stockpileTab");
+        m_RequestsTabProp = serializedObject.FindProperty("requestsTab");
+
+        //Windows
+        m_AddStockpileWindowProp = serializedObject.FindProperty("addStockpileWindow");
+        m_ItemInteractWindowProp = serializedObject.FindProperty("itemInteractWindow");
+        m_StockpileLogWindowProp = serializedObject.FindProperty("stockpileLogWindow");
+        m_MapMarkerWindowProp = serializedObject.FindProperty("mapMarkerWindow");
+
+        //Panel & Screens
+        m_LoginPanelProp = serializedObject.FindProperty("loginScreen");
+
+        //InputFields
+        m_UsernameFieldProp = serializedObject.FindProperty("usernameField");
+        m_PasskeyFieldProp = serializedObject.FindProperty("passkeyField");
+
+        //Buttons
+        m_ItemButtonProp = serializedObject.FindProperty("itemButton");
+
+        //Text
+        m_ConnectionTextProp = serializedObject.FindProperty("connectionText");
+        m_UsernameTextProp = serializedObject.FindProperty("usernameText");
+
+        //List Items
+        m_StockpileListItemProp = serializedObject.FindProperty("stockpileListItem");
+        m_RequestListItemProp = serializedObject.FindProperty("requestListItem");
+
+        //Scroll Rect Content
+        m_StockpileScrollContentProp = serializedObject.FindProperty("listContent");
+        m_ItemScrollContentProp = serializedObject.FindProperty("itemContent");
+        m_RequestScrollContentProp = serializedObject.FindProperty("requestContent");
+
+    }
+
+    public override void OnInspectorGUI(){
+        
+        EditorGUILayout.PropertyField(m_NetworkManagerProp, new GUIContent("Network Manager"));
+        EditorGUILayout.PropertyField(m_TabContentProp, new GUIContent("Tab Content"));
+
+        showTabs = EditorGUILayout.BeginFoldoutHeaderGroup(showTabs, "Tab Panels");
+        if(showTabs){
+            EditorGUILayout.PropertyField(m_StockpileTabProp, new GUIContent("Stockpile Tab"));
+            EditorGUILayout.PropertyField(m_RequestsTabProp, new GUIContent("Request Tab"));
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        showWindows = EditorGUILayout.BeginFoldoutHeaderGroup(showWindows, "UI Windows");
+        if(showWindows){
+            EditorGUILayout.PropertyField(m_AddStockpileWindowProp, new GUIContent("Add Stockpile Window"));
+            EditorGUILayout.PropertyField(m_ItemInteractWindowProp, new GUIContent("Item Interact Window"));
+            EditorGUILayout.PropertyField(m_StockpileLogWindowProp, new GUIContent("Stockpile Log Window"));
+            EditorGUILayout.PropertyField(m_MapMarkerWindowProp, new GUIContent("Map Marker Window"));
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        showPanels = EditorGUILayout.BeginFoldoutHeaderGroup(showPanels, "Panels & Screens");
+        if(showPanels){
+            EditorGUILayout.PropertyField(m_LoginPanelProp, new GUIContent("Login Screen"));
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        showInputFields = EditorGUILayout.BeginFoldoutHeaderGroup(showInputFields, "Input Fields");
+        if(showInputFields){
+            EditorGUILayout.PropertyField(m_UsernameFieldProp, new GUIContent("Username Input Field"));
+            EditorGUILayout.PropertyField(m_PasskeyFieldProp, new GUIContent("Passkey Input Field"));
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        showButtons = EditorGUILayout.BeginFoldoutHeaderGroup(showButtons, "Buttons");
+        if(showButtons){
+            EditorGUILayout.PropertyField(m_ItemButtonProp, new GUIContent("Item Button"));
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        showText = EditorGUILayout.BeginFoldoutHeaderGroup(showText, "Text");
+        if(showText){
+            EditorGUILayout.PropertyField(m_UsernameTextProp, new GUIContent("Client Username Text"));
+            EditorGUILayout.PropertyField(m_ConnectionTextProp, new GUIContent("Connection Status Text"));
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        showListItems = EditorGUILayout.BeginFoldoutHeaderGroup(showListItems, "List Items/Elements");
+        if(showListItems){
+            EditorGUILayout.PropertyField(m_StockpileListItemProp, new GUIContent("Stockpile List UI Element"));
+            EditorGUILayout.PropertyField(m_RequestListItemProp, new GUIContent("Request List UI Element"));
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        showScrollContent = EditorGUILayout.BeginFoldoutHeaderGroup(showScrollContent, "Scroll Rect Content");
+        if(showScrollContent){
+            EditorGUILayout.PropertyField(m_StockpileScrollContentProp, new GUIContent("Stockpile List Content"));
+            EditorGUILayout.PropertyField(m_ItemScrollContentProp, new GUIContent("Item List Content"));
+            EditorGUILayout.PropertyField(m_RequestScrollContentProp, new GUIContent("Request List Content"));
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        EditorGUILayout.PropertyField(m_LocalUsernameProp, new GUIContent("Local Client Username"));
+        EditorGUILayout.PropertyField(m_IsUIOverrideProp, new GUIContent("UI Override Boolean"));
+        serializedObject.ApplyModifiedProperties();
+
+    }
+
+}
+#endif
+#endregion
