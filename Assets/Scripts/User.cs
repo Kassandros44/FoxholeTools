@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using System.IO;
 using System;
 
-public class User : NetworkBehaviour
+public class User : MonoBehaviour
 {
 
     [SerializeField]
@@ -17,35 +17,46 @@ public class User : NetworkBehaviour
     [SerializeField]
     private NetworkManager networkManager;
 
-    public UserXml userXml;
+    public UserModel userXml;
 
-    public StockpileXml currentlyViewedStockpile;
+    public StockpileModel currentlyViewedStockpile;
 
     public DataManager dataManager;
 
     private void Start() {
 
-        if(isLocalPlayer){
+        //if(isLocalPlayer){
 
             uIManager = GameObject.Find("AppUICanvas").GetComponent<UIManager>();
             mapUIManager = GameObject.Find("MapContainer").GetComponent<MapUIManager>();
-            networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-            LocalUser.SetLocalUser();
+            //networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+            LocalUser.SetLocalUser(this.gameObject);
+            UIManager.OnLogin += OnLogin;
 
-
-            userXml = new UserXml();
+            userXml = new UserModel();
             StartDataManager();
             userXml.username = uIManager.username;
 
-            CreateUser(userXml.username, userXml);
-            RequestStockpileListUpdate();
+            
+            //RequestStockpileListUpdate();
             UpdateRequestList();
 
-        }
+            StockpileListItem.OnStockViewChange += OnStockViewChange;
+
+        //}
 
     }
 
-    [Server]
+    private void OnLogin(object sender, UIManager.OnLoginEventArgs e){
+        CreateUser(e.user);
+    }
+
+    private void OnStockViewChange(object sender, StockpileListItem.OnViewEventArgs e){
+        currentlyViewedStockpile = e.stockpile;
+        //UpdateStockpileContent(e.stockpile);
+    }
+
+    //[Server]
     private void SaveData(){
 
         dataManager.Save(Path.Combine(Application.persistentDataPath, "serverdata.xml"));
@@ -53,63 +64,64 @@ public class User : NetworkBehaviour
 
     }
 
-    [Server]
+    //[Server]
     private DataManager LoadData(){
 
         return(DataManager.Load(Path.Combine(Application.persistentDataPath, "serverdata.xml")));
 
     }
 
-    [Command]
+    //[Command]
     private void StartDataManager(){
 
         dataManager = new DataManager();
 
     }
 
-    [Command]
-    void CreateUser(string username, UserXml userXml){
+    //[Command]
+    void CreateUser(UserModel user){
 
-        dataManager = LoadData();
+        //dataManager = LoadData();
 
-        ReturnConnection(username);
+        ReturnConnection(user.username);
         UpdateMapPins(dataManager);
 
-        foreach (var item in dataManager.userData.Users){
+/*         foreach (var item in dataManager.userData.Users){
 
             if(item.username == username){
                 return;
             }
             
-        }
+        } */
 
-        dataManager.userData.Users.Add(userXml);
-        SaveData();
-        Debug.Log(username + " Connected");
+        //dataManager.userData.Users.Add(userXml);
+        //SaveData();
+        Debug.Log($"{user.username} Connected");
 
     }
 
-    [Command]
+    //[Command]
     public void ClientDisconnected(string username){
 
         Debug.Log(username + " Disconnected");
 
     }
 
-    [Command]
-    public void AddStockpileOnServer(StockpileXml stockpile){
+    //[Command]
+/*     public void AddStockpileOnServer(StockpileModel stockpile){
 
-        dataManager.stockpileData.Stockpiles.Add(stockpile);
+        //dataManager.stockpileData.Stockpiles.Add(stockpile);
         CreateCrateListOnServer(stockpile);
         
-        SaveData();
+        //SaveData();
 
-        UpdateStockpileList(dataManager);
+        //UpdateStockpileList();
+        DatabaseManager.AddStockpile(stockpile);
 
-    }
+    } */
 
-    [Server]
-    public void CreateCrateListOnServer(StockpileXml stockpile){
+    //[Server]
+/*     public void CreateCrateListOnServer(StockpileModel stockpile){
 
             var itemCollection = ItemContainer.Load();
 
@@ -125,16 +137,16 @@ public class User : NetworkBehaviour
         SaveData();
         Debug.Log(stockpile.name + " was Saved");
 
-    }
+    } */
 
 
 
-    [Command]
-    public void RequestStockpileListUpdate(){
+    //[Command]
+/*     public void RequestStockpileListUpdate(){
 
         if(File.Exists(Path.Combine(Application.persistentDataPath, "serverdata.xml"))){
 
-            UpdateStockpileList(DataManager.Load(Path.Combine(Application.persistentDataPath, "serverdata.xml")));
+            UpdateStockpileList();
 
         } else {
 
@@ -142,26 +154,25 @@ public class User : NetworkBehaviour
 
         }
 
-    }
+    } */
 
-    [Command]
-    public void RequestStockpileData(string passcode){
+/*     [Command]
+    public void RequestStockpileData(string id){
 
-
-
-        foreach (var item in dataManager.stockpileData.Stockpiles)
+        foreach (var item in DatabaseManager.GetAllStockpiles())
         {
             Debug.Log(item.name + " " + item.passcode);
-            if(item.passcode == passcode){
+            if(item.Id == id){
                 UpdateStockpileContent(item);
             }
 
         }
 
-    }
+    } */
 
-    [Command]
-    public void AddCratesToStockpile(StockpileXml stockpile, int index, int num, string username){
+    //[Command]
+    /* 
+    public void AddCratesToStockpile(StockpileModel stockpile, int index, int num, string username){
 
         foreach (var item in stockpile.crates) {
 
@@ -185,12 +196,14 @@ public class User : NetworkBehaviour
             }
         }
         SaveData();
+        Debug.Log(stockpile.Id);
+        DatabaseManager.UpdateStockpile(stockpile);
         UpdateStockpileContent(stockpile);
         
-    }
+    } */
 
-    [Command]
-    public void RemoveCratesFromStockpile(StockpileXml stockpile, int index, int num, string username){
+    //[Command]
+/*     public void RemoveCratesFromStockpile(StockpileModel stockpile, int index, int num, string username){
 
         foreach (var item in stockpile.crates) {
             
@@ -213,12 +226,13 @@ public class User : NetworkBehaviour
         }
 
         SaveData();
+        DatabaseManager.UpdateStockpile(stockpile);
         UpdateStockpileContent(stockpile);
 
-    }
+    } */
 
-    [Command]
-    public void SetCratesInStockpile(StockpileXml stockpile, int index, int num, string username){
+    //[Command]
+/*     public void SetCratesInStockpile(StockpileModel stockpile, int index, int num, string username){
 
         foreach (var item in stockpile.crates) {
             
@@ -241,12 +255,13 @@ public class User : NetworkBehaviour
         }
 
         SaveData();
+        DatabaseManager.UpdateStockpile(stockpile);
         UpdateStockpileContent(stockpile);
 
-    }
+    } */
 
     //request code
-    [Command]
+    //[Command]
     public void AddRequestData(Vector3 point){
         
         Debug.Log("pin " + point.x);
@@ -264,17 +279,17 @@ public class User : NetworkBehaviour
     
     RequestXml request;
 
-    [Command]
+    //[Command]
     public void GenerateNewRequest(){
         request = new RequestXml();
     }
 
-    [Command]
-    public void AddNewRequestItem(int index, int amount, int priority){
-        request.itemList.Add(new ItemListData(index, amount, priority));
+    //[Command]
+    public void AddNewRequestItem(int index, string name, int amount, int priority){
+        request.itemList.Add(new ItemListData(index, name, amount, priority));
     }
 
-    [Command]
+    //[Command]
     public void CreateRequest(string location, string username){
 
         request.location = location;
@@ -286,14 +301,14 @@ public class User : NetworkBehaviour
 
     }
 
-    [Command]
+    //[Command]
     public void UpdateRequestList(){
 
         LoadRequestData(LoadData());
 
     }
 
-    [TargetRpc]
+    //[TargetRpc]
     public void LoadRequestData(DataManager data){
 
         for(int i = 0; i < uIManager.requestContent.transform.childCount; i++){
@@ -312,7 +327,7 @@ public class User : NetworkBehaviour
     }
 
     //map pin code
-    [Command]
+    //[Command]
     public void AddMapPin(Vector3 point, int pinType){
 
         MapPinXml newMapPin = new MapPinXml();
@@ -326,7 +341,7 @@ public class User : NetworkBehaviour
 
     }
 
-    [TargetRpc]
+    //[TargetRpc]
     void ReturnConnection(string username){
 
         Debug.Log(username);
@@ -334,8 +349,8 @@ public class User : NetworkBehaviour
 
     }
 
-    [TargetRpc]
-    void UpdateStockpileList(DataManager dataManager){
+    //[TargetRpc]
+ /*    void UpdateStockpileList(){
 
         for (int i = 0; i < uIManager.listContent.transform.childCount; i++) {
             
@@ -343,17 +358,18 @@ public class User : NetworkBehaviour
 
         }
 
-        foreach (var item in dataManager.stockpileData.Stockpiles) {
+        foreach (var item in DatabaseManager.GetAllStockpiles()) {
             
             GameObject listItem = Instantiate(uIManager.stockpileListItem, uIManager.listContent.transform);
             listItem.GetComponent<StockpileListItem>().SetItemUI(item);
+            //listItem.GetComponent<StockpileListItem>().OnStockViewChange += OnStockViewChange;
 
         }
 
-    }
+    } */
 
-    [TargetRpc]
-    public void UpdateStockpileContent(StockpileXml stockpile){
+    //[TargetRpc]
+/*     public void UpdateStockpileContent(StockpileModel stockpile){
         
         currentlyViewedStockpile = stockpile;
         Debug.Log(currentlyViewedStockpile.name);
@@ -364,9 +380,9 @@ public class User : NetworkBehaviour
 
         }
 
-    }
+    } */
 
-    [ClientRpc]
+    //[ClientRpc]
     public void UpdateMapPins(DataManager data){
 
         mapUIManager.ClearMapPins();

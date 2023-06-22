@@ -9,8 +9,8 @@ public static class LocalUser
     private static GameObject localUser;
     private static string username;
 
-    public static void SetLocalUser(){
-        localUser = NetworkClient.localPlayer.gameObject;
+    public static void SetLocalUser(GameObject obj){
+        localUser = obj;
     }
 
     public static GameObject GetLocalUser(){

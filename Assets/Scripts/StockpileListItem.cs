@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class StockpileListItem : MonoBehaviour {
 
     private UIManager uIManager;
 
-    private StockpileXml stockpileXml;
+    public StockpileModel stockpileXml;
 
     private void Start() {
         
@@ -22,7 +23,7 @@ public class StockpileListItem : MonoBehaviour {
 
     }
 
-    public void SetItemUI(StockpileXml stockpile){
+    public void SetItemUI(StockpileModel stockpile){
 
         nameText.text = stockpile.name;
         locationText.text = stockpile.location;
@@ -32,9 +33,17 @@ public class StockpileListItem : MonoBehaviour {
 
     }
 
+    public static event EventHandler<OnViewEventArgs> OnStockViewChange;
+    public class OnViewEventArgs : EventArgs{
+        public StockpileModel stockpile;
+    }
+
     public void ViewStockpile(){
 
-        NetworkClient.localPlayer.GetComponent<User>().RequestStockpileData(passcodeText.text);
+        OnStockViewChange?.Invoke(this, new OnViewEventArgs{
+            stockpile = stockpileXml
+            });
+        Debug.Log(stockpileXml.Id);
 
     }
     

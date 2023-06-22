@@ -85,6 +85,10 @@ public class UIManager : MonoBehaviour {
         stockpileTab.SetActive(true);
         requestsTab.SetActive(false);
 
+        CrateInteractWindow.OnSubmit += (object sender, CrateInteractWindow.OnSubmitEventArgs e) => {UpdateStockpileContent(e.stockpile);};
+        TickTimerSystem.OnTick_5 += (object sender, TickTimerSystem.OnTickEventArgs e) => {UpdateStockpileList();};
+        StockpileListItem.OnStockViewChange += (object sender, StockpileListItem.OnViewEventArgs e) => {UpdateStockpileContent(e.stockpile);};
+
     }
 
     private void SpawnMapMenu_OnRightMouseDown(object sender, EventArgs e){
@@ -106,6 +110,36 @@ public class UIManager : MonoBehaviour {
         }
 
         isUIOverride = EventSystem.current.IsPointerOverGameObject();
+
+    }
+
+    void UpdateStockpileList(){
+
+        for (int i = 0; i < listContent.transform.childCount; i++) {
+            
+            Destroy(listContent.transform.GetChild(i).gameObject);
+
+        }
+
+        foreach (var item in DatabaseManager.GetAllStockpiles()) {
+            
+            GameObject listItem = Instantiate(stockpileListItem, listContent.transform);
+            listItem.GetComponent<StockpileListItem>().SetItemUI(item);
+            //listItem.GetComponent<StockpileListItem>().OnStockViewChange += OnStockViewChange;
+
+        }
+
+    }
+
+    public void UpdateStockpileContent(StockpileModel stockpile){
+        
+        Debug.Log(stockpile.name);
+
+        for (int i = 0; i < stockpile.crates.Count; i++) {
+            
+            SetCrateAmount(stockpile.crates[i].amount, i);
+
+        }
 
     }
 
@@ -153,6 +187,7 @@ public class UIManager : MonoBehaviour {
 
         GameObject window = Instantiate(itemInteractWindow, this.transform);
         window.GetComponent<CrateInteractWindow>().index = index;
+        //window.GetComponent<CrateInteractWindow>().OnSubmit += OnCrateInteractWindowSubmitted;
 
     }
 
@@ -250,14 +285,25 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    public static event EventHandler<OnLoginEventArgs> OnLogin;
+    public class OnLoginEventArgs : EventArgs{
+        public UserModel user;
+    }
     public void Login(){
+        
+        UserModel user = new UserModel();
+        user = DatabaseManager.GetUser(usernameField.text, passkeyField.text);
+        Debug.Log($"Login debug user output {user}");
 
-        username = usernameField.text;
-        Debug.Log(usernameField.text);
-        Debug.Log(usernameField.text.Length);
-        loginScreen.SetActive(false);
-        manager.StartClient();
-        LocalUser.SetLocalUsername(username);
+        if(user != null  && usernameField.text != ""){
+            username = usernameField.text;
+            loginScreen.SetActive(false);
+            //manager.StartClient();
+            LocalUser.SetLocalUsername(username);
+            OnLogin?.Invoke(this, new OnLoginEventArgs{ user = user});
+        }else{
+            Debug.Log("Did not login");
+        }
 
     }
 
@@ -283,11 +329,11 @@ public class UIManager : MonoBehaviour {
 
     }
 
-    public void RefreshStockpileList(){
+/*     public void RefreshStockpileList(){
 
         LocalUser.GetLocalUser().GetComponent<User>().RequestStockpileListUpdate();
 
-    }
+    } */
 
     public void GenerateItems(){
 

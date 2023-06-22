@@ -54,21 +54,21 @@ public class RequestPopup : MonoBehaviour
         for (int i = 0; i < lowProContent.transform.childCount; i++)
         {
             RequestListItem requestListItem = lowProContent.transform.GetChild(i).GetComponent<RequestListItem>();
-            ItemListData data = new ItemListData(requestListItem.GetIndex(), int.Parse(requestListItem.GetInputField().text), 1);
+            ItemListData data = new ItemListData(requestListItem.GetIndex(), requestListItem.GetName(), int.Parse(requestListItem.GetInputField().text), 1);
             itemListDatas.Add(data);
 
         }
         for (int i = 0; i < medProContent.transform.childCount; i++)
         {
             RequestListItem requestListItem = medProContent.transform.GetChild(i).GetComponent<RequestListItem>();
-            ItemListData data = new ItemListData(requestListItem.GetIndex(), int.Parse(requestListItem.GetInputField().text), 2);
+            ItemListData data = new ItemListData(requestListItem.GetIndex(), requestListItem.GetName(), int.Parse(requestListItem.GetInputField().text), 2);
             itemListDatas.Add(data);
 
         }
         for (int i = 0; i < highProContent.transform.childCount; i++)
         {
             RequestListItem requestListItem = highProContent.transform.GetChild(i).GetComponent<RequestListItem>();
-            ItemListData data = new ItemListData(requestListItem.GetIndex(), int.Parse(requestListItem.GetInputField().text), 3);
+            ItemListData data = new ItemListData(requestListItem.GetIndex(), requestListItem.GetName(), int.Parse(requestListItem.GetInputField().text), 3);
             itemListDatas.Add(data);
 
         }
@@ -77,7 +77,7 @@ public class RequestPopup : MonoBehaviour
 
         foreach (var item in itemListDatas)
         {
-            user.AddNewRequestItem(item.index, item.amount, item.priority);
+            user.AddNewRequestItem(item.index, item.itemName, item.amount, item.priority);
         }
 
         user.CreateRequest(location, LocalUser.GetUsername());
@@ -101,13 +101,14 @@ public class RequestPopup : MonoBehaviour
         {
             GameObject newItem = Instantiate<GameObject>(itemButton, itemContent.transform);
             newItem.GetComponent<RequestItemBtn>().index = itemContainer.Items.IndexOf(item);
+            newItem.GetComponent<RequestItemBtn>().itemName = item.name;
             newItem.GetComponent<RequestItemBtn>().SetRequestPopup(this);
             newItem.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(item.image);
         }
 
     }
 
-    public void DoRequest(int index, Sprite sprite){
+    public void DoRequest(int index, string name, Sprite sprite){
 
         ItemContainer itemContainer = ItemContainer.Load();
 
@@ -115,22 +116,22 @@ public class RequestPopup : MonoBehaviour
         {
             if(item.isOn && item.gameObject.name.Contains("Low")){
 
-                IterSpawnListItems(lowProContent, index, sprite);
+                IterSpawnListItems(lowProContent, index, name, sprite);
 
             } else if (item.isOn && item.gameObject.name.Contains("Medium")){
 
-                IterSpawnListItems(medProContent, index, sprite);
+                IterSpawnListItems(medProContent, index, name, sprite);
 
             } else if (item.isOn && item.gameObject.name.Contains("High")){
 
-                IterSpawnListItems(highProContent, index, sprite);
+                IterSpawnListItems(highProContent, index, name, sprite);
 
             }
         }
 
     }
 
-    private void IterSpawnListItems(GameObject content, int index, Sprite sprite){
+    private void IterSpawnListItems(GameObject content, int index, string name, Sprite sprite){
 
         if(content.transform.childCount != 0){
                     
@@ -151,6 +152,7 @@ public class RequestPopup : MonoBehaviour
                         GameObject obj = Instantiate<GameObject>(requestListItem, content.transform);
                         RequestListItem newRLI = obj.GetComponent<RequestListItem>();
                         newRLI.SetIndex(index);
+                        newRLI.SetName(name);
                         newRLI.GetInputField().text = "1";
                         newRLI.GetImage().sprite = sprite;
                         
@@ -161,6 +163,7 @@ public class RequestPopup : MonoBehaviour
                     GameObject obj = Instantiate<GameObject>(requestListItem, content.transform);
                     RequestListItem newRLI = obj.GetComponent<RequestListItem>();
                     newRLI.SetIndex(index);
+                    newRLI.SetName(name);
                     newRLI.GetInputField().text = "1";
                     newRLI.GetImage().sprite = sprite;
 

@@ -6,13 +6,15 @@ using UnityEngine.UI;
 
 public class StockpileLogWindow : NetworkBehaviour {
 
+    //NOTE: REFACTOR THIS
+
     [SerializeField]
     private GameObject content;
 
     [SerializeField]
     private GameObject logElement;
 
-    private StockpileXml stockpile;
+    private StockpileModel stockpile;
 
     private void Start() {
         

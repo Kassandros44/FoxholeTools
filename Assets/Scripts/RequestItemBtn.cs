@@ -9,6 +9,7 @@ public class RequestItemBtn : MonoBehaviour
     private RequestPopup requestPopup;
 
     public int index;
+    public string itemName;
 
     public void SetRequestPopup(RequestPopup obj){
         requestPopup = obj;
@@ -29,7 +30,7 @@ public class RequestItemBtn : MonoBehaviour
     public void OnClicked(){
 
         Sprite sprite = this.transform.Find("Image").GetComponent<Image>().sprite;
-        requestPopup.DoRequest(index, sprite);
+        requestPopup.DoRequest(index, itemName, sprite);
 
     }
 

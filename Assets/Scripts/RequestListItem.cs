@@ -29,6 +29,8 @@ public class RequestListItem : MonoBehaviour
     [SerializeField]
     private int index;
     [SerializeField]
+    private string itemName;
+    [SerializeField]
     private InputField inputField;
     [SerializeField]
     private Image image;
@@ -38,6 +40,14 @@ public class RequestListItem : MonoBehaviour
     }
     public int GetIndex(){
         return index;
+    }
+
+    public void SetName(string n){
+        itemName = n;
+    }
+
+    public string GetName(){
+        return itemName;
     }
 
     public InputField GetInputField(){
@@ -64,14 +74,18 @@ public class ItemListData
 
     }
 
-    public ItemListData(int i, int a, int p){
+    public ItemListData(int i, string n, int a, int p){
         index = i;
+        itemName = n;
         amount = a;
         priority = p;
     }
 
     [XmlAttribute("index")]
     public int index {get; set;}
+
+    [XmlAttribute("name")]
+    public string itemName {get; set;}
 
     [XmlAttribute("amount")]
     public int amount {get; set;}

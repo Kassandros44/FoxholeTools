@@ -15,35 +15,63 @@ public class CrateInteractWindow : NetworkBehaviour {
 
     private GameObject localUser;
 
-    private StockpileXml stockpile;
+    private StockpileModel m_stockpile;
+    private Action<StockpileModel, int, int, string> InputType;
 
     public int index;
 
     private void Start() {
         
-        localUser = NetworkClient.localPlayer.gameObject;
-        stockpile = localUser.GetComponent<User>().currentlyViewedStockpile;
+        dropdown.onValueChanged.AddListener(delegate {DropdownValueChanged(dropdown);});
+        m_stockpile = LocalUser.GetUserComponent().currentlyViewedStockpile;
+        InputType = m_stockpile.AddCratesToStockpile;
 
+    }
+
+    public void DropdownValueChanged(Dropdown change){
+        Debug.Log($"Changed Value {change.value}");
+
+        switch (change.value){
+            case 0:
+                InputType = m_stockpile.AddCratesToStockpile;
+                break;
+            case 1:
+                InputType = m_stockpile.RemoveCratesFromStockpile;
+                break;
+            case 2:
+                InputType = m_stockpile.SetCratesInStockpile;
+                break;
+        }
+
+    }
+
+    public static event EventHandler<OnSubmitEventArgs> OnSubmit;
+    public class OnSubmitEventArgs : EventArgs{
+        public StockpileModel stockpile;
     }
 
     public void SubmitButton(){
 
-        switch (dropdown.value)
+        InputType(m_stockpile, index, int.Parse(inputField.text), LocalUser.GetUsername());
+        OnSubmit?.Invoke(this, new OnSubmitEventArgs{stockpile = m_stockpile});
+        CloseWindow();
+
+/*         switch (dropdown.value)
         {
             
             case 0:
-                localUser.GetComponent<User>().AddCratesToStockpile(stockpile, index, int.Parse(inputField.text), localUser.GetComponent<User>().uIManager.username);
+                LocalUser.GetUserComponent().AddCratesToStockpile(stockpile, index, int.Parse(inputField.text), LocalUser.GetUsername());
                 CloseWindow();
                 break;
             case 1:
-                localUser.GetComponent<User>().RemoveCratesFromStockpile(stockpile, index, int.Parse(inputField.text), localUser.GetComponent<User>().uIManager.username);
+                LocalUser.GetUserComponent().RemoveCratesFromStockpile(stockpile, index, int.Parse(inputField.text), LocalUser.GetUsername());
                 CloseWindow();
                 break;
             case 2:
-                localUser.GetComponent<User>().SetCratesInStockpile(stockpile, index, int.Parse(inputField.text), localUser.GetComponent<User>().uIManager.username);
+                LocalUser.GetUserComponent().SetCratesInStockpile(stockpile, index, int.Parse(inputField.text), LocalUser.GetUsername());
                 CloseWindow();
                 break;
-        }
+        } */
 
     }
 
