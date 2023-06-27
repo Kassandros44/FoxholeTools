@@ -38,7 +38,7 @@ public class StockpileLogWindow : NetworkBehaviour {
 
         } else {
 
-            foreach (var item in currentLog.Logs) {
+            foreach (var item in currentLog.logs) {
 
                 GameObject newLogElement = Instantiate<GameObject>(logElement, content.transform);
                 newLogElement.GetComponentInChildren<Text>().text = item.username + ": " + item.timestamp + " " + item.action + ": " + item.amount + " " + item.item + " crates";

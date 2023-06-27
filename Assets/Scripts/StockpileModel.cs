@@ -5,6 +5,8 @@ using System.Xml.Serialization;
 using System;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
+using Newtonsoft.Json.Linq;
+using FoxholeTools.Utils;
 
 [Serializable]
 public class StockpileModel {
@@ -26,16 +28,44 @@ public class StockpileModel {
     public List<Crate> crates = new List<Crate>();
 
     [XmlArray("Logs"), XmlArrayItem("Log")]
-    public List<Log> Logs = new List<Log>();
+    public List<Log> logs = new List<Log>();
 
-    public StockpileModel(){
-        Id = "";
-        name = "Default";
-        location = "Unmarked";
-        passcode = "000000";
+    public StockpileModel(){}
+
+    public StockpileModel(JObject jobject){
+        if(jobject.ContainsKey("id")){
+            Id = (string)jobject["id"];
+        }
+        if(jobject.ContainsKey("name")){
+            name = (string)jobject["name"];
+        }
+        if(jobject.ContainsKey("location")){
+            location = (string)jobject["location"];
+        }
+        if(jobject.ContainsKey("passcode")){
+            passcode = (string)jobject["passcode"];
+        }
+        if(jobject.ContainsKey("crates")){
+            JArray jArray = (JArray)jobject["crates"];
+            foreach(var i in jArray){
+                JObject item = JObject.Parse(i.ToString());
+                Crate crate = new Crate(item);
+                crates.Add(crate);
+            }
+        }
+        if(jobject.ContainsKey("logs")){
+            JArray jArray = (JArray)jobject["logs"];
+            foreach(var i in jArray){
+                JObject item = JObject.Parse(i.ToString());
+                Log log = new Log(item);
+                logs.Add(log);
+            }
+        }
     }
 
     public static void CreateNewStockpile(string name, string loc, string pass){
+
+        string url = "http://localhost:5191/stockpiles";
 
         var stockpile = new StockpileModel{
             name=name,
@@ -56,11 +86,14 @@ public class StockpileModel {
 
         Debug.Log(stockpile.name + " was Saved");
         
-        DatabaseManager.AddStockpile(stockpile);
+        //DatabaseManager.AddStockpile(stockpile);
+        WebRequests.Put(url, stockpile, (i) => {}, (i) => {});
 
     }
 
     public void AddCratesToStockpile(StockpileModel stockpile, int index, int num, string username){
+
+        string url = "http://localhost:5191/stockpiles";
 
         foreach (var item in stockpile.crates) {
 
@@ -69,50 +102,54 @@ public class StockpileModel {
             if(stockpile.crates.IndexOf(item) == index){
 
                 item.amount += num;
-                stockpile.Logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Added", item.name, num.ToString()));
+                stockpile.logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Added", item.name, num.ToString()));
                 Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "added" + ": " + num + " " + item.name + " crates");
 
             }
 
         }
 
-        DatabaseManager.UpdateStockpile(stockpile);
+        WebRequests.Put($"{url}/{stockpile.Id}", stockpile, (i) => {}, (i) => {});
 
     }
 
     public void RemoveCratesFromStockpile(StockpileModel stockpile, int index, int num, string username){
+
+        string url = "http://localhost:5191/stockpiles";
 
         foreach (var item in stockpile.crates) {
             
             if(stockpile.crates.IndexOf(item) == index){
 
                 item.amount -= num;
-                stockpile.Logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Removed", item.name, num.ToString()));
+                stockpile.logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Removed", item.name, num.ToString()));
                 Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "removed" + ": " + num + " " + item.name + " crates");
 
             }
 
         }
 
-        DatabaseManager.UpdateStockpile(stockpile);
+        WebRequests.Put($"{url}/{stockpile.Id}", stockpile, (i) => {}, (i) => {});
 
     }
 
     public void SetCratesInStockpile(StockpileModel stockpile, int index, int num, string username){
+
+        string url = "http://localhost:5191/stockpiles";
 
         foreach (var item in stockpile.crates) {
             
             if(stockpile.crates.IndexOf(item) == index){
 
                 item.amount = num;
-                stockpile.Logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Set", item.name, num.ToString()));
+                stockpile.logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Set", item.name, num.ToString()));
                 Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "set" + ": " + num + " " + item.name + " crates");
 
             }
 
         }
 
-        DatabaseManager.UpdateStockpile(stockpile);
+        WebRequests.Put($"{url}/{stockpile.Id}", stockpile, (i) => {}, (i) => {});
 
     }
 

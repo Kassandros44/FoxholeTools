@@ -1,11 +1,14 @@
 using System.Collections.Generic;
+using System.Collections;
 using System;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Networking;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json.Linq;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using System.Threading.Tasks;
@@ -131,11 +134,9 @@ public static class DatabaseManager{
     private const string StockpileCollection = "Stockpiles";
 
     private static IMongoCollection<T> ConnectToMongo<T>(in string collection){
-
         var client = new MongoClient(connectionURI);
         var db = client.GetDatabase(databaseName);
         return db.GetCollection<T>(collection);
-
     }
 
 #region Stockpiles
@@ -168,6 +169,22 @@ public static class DatabaseManager{
         var filter = Builders<StockpileModel>.Filter.Eq("Id", stockpile.Id);
         var result = stockpileCollection.Find(filter).FirstOrDefault();
         return result;
+    }
+    public static IEnumerator GetStockpiles(Action<List<StockpileModel>> callBack){
+        var request = UnityWebRequest.Get("http://localhost:5191/stockpiles");
+        yield return request.SendWebRequest();
+        if(request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError){
+            Debug.Log(request.result);
+        }else{
+            List<StockpileModel> result = new List<StockpileModel>();
+            JArray stockpiles = JArray.Parse(request.downloadHandler.text);
+            foreach(var i in stockpiles){
+                JObject obj = JObject.Parse(i.ToString());
+                StockpileModel stockpile = new StockpileModel(obj);
+                result.Add(stockpile);
+            }
+            callBack(result);
+        }
     }
 #endregion
 #region Users
@@ -231,8 +248,7 @@ public static class DatabaseManager{
             return true;
         }else{
             return false;
-        }
-        
+        }        
     }
 #endregion
 }

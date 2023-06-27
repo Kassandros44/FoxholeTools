@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Mirror;
 using TMPro;
+using Newtonsoft.Json.Linq;
+using FoxholeTools.Utils;
 
 public class UIManager : MonoBehaviour {
 
@@ -115,20 +117,40 @@ public class UIManager : MonoBehaviour {
 
     void UpdateStockpileList(){
 
-        for (int i = 0; i < listContent.transform.childCount; i++) {
-            
-            Destroy(listContent.transform.GetChild(i).gameObject);
+        string url = "http://localhost:5191/stockpiles";
+        WebRequests.Get(url, (list) => {}, (data) => {
 
-        }
+            List<StockpileModel> list = new List<StockpileModel>();
+            JArray stockpiles = JArray.Parse(data);
+            foreach(var i in stockpiles){
+                JObject obj = JObject.Parse(i.ToString());
+                StockpileModel stockpile = new StockpileModel(obj);
+                list.Add(stockpile);
+            }
 
-        foreach (var item in DatabaseManager.GetAllStockpiles()) {
-            
-            GameObject listItem = Instantiate(stockpileListItem, listContent.transform);
-            listItem.GetComponent<StockpileListItem>().SetItemUI(item);
-            //listItem.GetComponent<StockpileListItem>().OnStockViewChange += OnStockViewChange;
+            Transform listObjectTransform = listContent.transform;
+            List<StockpileModel> children = new List<StockpileModel>();
 
-        }
+            foreach(Transform t in listObjectTransform){
+                children.Add(t.GetComponent<StockpileListItem>().stockpileXml);
+            }
 
+            for (int i = 0; i < listObjectTransform.childCount; i++) {
+                StockpileModel stockpile =
+                    listObjectTransform.GetChild(i)
+                    .gameObject.GetComponent<StockpileListItem>().stockpileXml;
+                if(!list.Contains(stockpile))
+                    Destroy(listObjectTransform.GetChild(i).gameObject);
+            }
+            foreach (var item in list) {
+
+                if(!children.Contains(item)){
+                    GameObject listItem = Instantiate(stockpileListItem, listContent.transform);
+                    listItem.GetComponent<StockpileListItem>().SetItemUI(item);
+                    //listItem.GetComponent<StockpileListItem>().OnStockViewChange += OnStockViewChange;
+                }
+            }
+        }); 
     }
 
     public void UpdateStockpileContent(StockpileModel stockpile){

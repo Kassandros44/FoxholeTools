@@ -172,7 +172,6 @@ public class scr_tile_controller : MonoBehaviour
             }
             MapData.mapTextMarkers.Add(map, tempMarkers);
             StartCoroutine(LoadMapData(MapName));
-            Debug.Log(www.downloadHandler.text);
         }
 
     }
