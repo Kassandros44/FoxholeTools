@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,8 @@ public class UIManager : MonoBehaviour {
 
     [SerializeField]
     private GameObject stockpileLogWindow;
+    [SerializeField]
+    private GameObject stockDltWindow;
 
     [SerializeField]
     private GameObject loginScreen;
@@ -49,6 +52,7 @@ public class UIManager : MonoBehaviour {
     private GameObject itemButton;
     private Transform currentTab;
     private List<GameObject> markerWindows = new List<GameObject>();
+    private StockpileModel currentlyViewedStockpile;
 
     [SerializeField]
     public Transform tabContent;
@@ -79,6 +83,7 @@ public class UIManager : MonoBehaviour {
 
     private void Start() {
         
+        Helper.LoadDotEnv();
         MapUIManager mapUIManager = GameObject.Find("MapContainer").GetComponent<MapUIManager>();
         mapUIManager.OnRightMouseDown += SpawnMapMenu_OnRightMouseDown;
 
@@ -89,7 +94,10 @@ public class UIManager : MonoBehaviour {
 
         CrateInteractWindow.OnSubmit += (object sender, CrateInteractWindow.OnSubmitEventArgs e) => {UpdateStockpileContent(e.stockpile);};
         TickTimerSystem.OnTick_5 += (object sender, TickTimerSystem.OnTickEventArgs e) => {UpdateStockpileList();};
-        StockpileListItem.OnStockViewChange += (object sender, StockpileListItem.OnViewEventArgs e) => {UpdateStockpileContent(e.stockpile);};
+        StockpileListItem.OnStockViewChange += (object sender, StockpileListItem.OnViewEventArgs e) => {
+            UpdateStockpileContent(e.stockpile);
+            currentlyViewedStockpile = e.stockpile;
+        };
 
     }
 
@@ -116,20 +124,13 @@ public class UIManager : MonoBehaviour {
     }
 
     void UpdateStockpileList(){
-
-        string url = "http://localhost:5191/stockpiles";
+        
+        string url = $"{Helper.apiHost}:{Helper.apiPort}/stockpiles";
         WebRequests.Get(url, (list) => {}, (data) => {
-
-            List<StockpileModel> list = new List<StockpileModel>();
-            JArray stockpiles = JArray.Parse(data);
-            foreach(var i in stockpiles){
-                JObject obj = JObject.Parse(i.ToString());
-                StockpileModel stockpile = new StockpileModel(obj);
-                list.Add(stockpile);
-            }
 
             Transform listObjectTransform = listContent.transform;
             List<StockpileModel> children = new List<StockpileModel>();
+            List<StockpileModel> list = Helper.GetListFromData<StockpileModel>(data);
 
             foreach(Transform t in listObjectTransform){
                 children.Add(t.GetComponent<StockpileListItem>().stockpileXml);
@@ -197,6 +198,11 @@ public class UIManager : MonoBehaviour {
         GameObject bg = gameObject.transform.Find("MainBackground").gameObject;
         bg.SetActive(false);
 
+    }
+
+    public void OnDelStkBtnClicked(){
+        GameObject window = Instantiate(stockDltWindow, this.transform);
+        window.GetComponent<StockDltWindow>().stockpile = currentlyViewedStockpile;
     }
 
     public void CreateAddStockpileWindow(){
@@ -395,6 +401,7 @@ public class UIManagerEditor : Editor {
     SerializedProperty m_ItemInteractWindowProp;
     SerializedProperty m_StockpileLogWindowProp;
     SerializedProperty m_MapMarkerWindowProp;
+    SerializedProperty m_StockDltWindowProp;
     SerializedProperty m_LoginPanelProp;
     SerializedProperty m_UsernameFieldProp;
     SerializedProperty m_PasskeyFieldProp;
@@ -433,6 +440,7 @@ public class UIManagerEditor : Editor {
         m_ItemInteractWindowProp = serializedObject.FindProperty("itemInteractWindow");
         m_StockpileLogWindowProp = serializedObject.FindProperty("stockpileLogWindow");
         m_MapMarkerWindowProp = serializedObject.FindProperty("mapMarkerWindow");
+        m_StockDltWindowProp = serializedObject.FindProperty("stockDltWindow");
 
         //Panel & Screens
         m_LoginPanelProp = serializedObject.FindProperty("loginScreen");
@@ -477,6 +485,7 @@ public class UIManagerEditor : Editor {
             EditorGUILayout.PropertyField(m_ItemInteractWindowProp, new GUIContent("Item Interact Window"));
             EditorGUILayout.PropertyField(m_StockpileLogWindowProp, new GUIContent("Stockpile Log Window"));
             EditorGUILayout.PropertyField(m_MapMarkerWindowProp, new GUIContent("Map Marker Window"));
+            EditorGUILayout.PropertyField(m_StockDltWindowProp, new GUIContent("Delete Stockpile Window"));
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
 

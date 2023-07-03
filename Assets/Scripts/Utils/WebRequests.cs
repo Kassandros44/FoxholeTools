@@ -38,7 +38,6 @@ namespace FoxholeTools.Utils{
 
         public static void Put(string url, object obj, Action<string> onError, Action<string> onReceived){
             string json = JObject.FromObject(obj).ToString();
-            Debug.Log(json);
             Init();
             webRequestsMonoBehaviour.StartCoroutine(PutRequestEnumerator(url, json));
         }
@@ -46,6 +45,22 @@ namespace FoxholeTools.Utils{
         private static IEnumerator PutRequestEnumerator(string url, string data){
             using(UnityWebRequest webRequest = UnityWebRequest.Put(url, data)){
                 webRequest.SetRequestHeader("Content-Type", "application/json");
+                yield return webRequest.SendWebRequest();
+                if(webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError){
+                    Debug.Log(webRequest.error);
+                }else{
+                    Debug.Log(webRequest.result);
+                }
+            }
+        }
+
+        public static void Delete(string url, Action<string> onError, Action<string> onSuccess){
+            Init();
+            webRequestsMonoBehaviour.StartCoroutine(DeleteRequestEnumerator(url));
+        }
+
+        private static IEnumerator DeleteRequestEnumerator(string url){
+            using(UnityWebRequest webRequest = UnityWebRequest.Delete(url)){
                 yield return webRequest.SendWebRequest();
                 if(webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError){
                     Debug.Log(webRequest.error);
