@@ -91,6 +91,7 @@ public class UIManager : MonoBehaviour {
         
         stockpileTab.SetActive(true);
         requestsTab.SetActive(false);
+        Tooltip.HideTooltip_Static();
 
         CrateInteractWindow.OnSubmit += (object sender, CrateInteractWindow.OnSubmitEventArgs e) => {UpdateStockpileContent(e.stockpile);};
         TickTimerSystem.OnTick_5 += (object sender, TickTimerSystem.OnTickEventArgs e) => {UpdateStockpileList();};
@@ -160,7 +161,8 @@ public class UIManager : MonoBehaviour {
 
         for (int i = 0; i < stockpile.crates.Count; i++) {
             
-            SetCrateAmount(stockpile.crates[i].amount, i);
+            itemContent.transform.GetChild(i).Find("AmountTxt").GetComponent<Text>().text = stockpile.crates[i].amount.ToString();
+            itemContent.transform.GetChild(i).Find("QuotaTxt").GetComponent<Text>().text = stockpile.crates[i].quota.ToString();
 
         }
 
@@ -317,23 +319,6 @@ public class UIManager : MonoBehaviour {
     public class OnLoginEventArgs : EventArgs{
         public UserModel user;
     }
-    public void Login(){
-        
-        UserModel user = new UserModel();
-        user = DatabaseManager.GetUser(usernameField.text, passkeyField.text);
-        Debug.Log($"Login debug user output {user}");
-
-        if(user != null  && usernameField.text != ""){
-            username = usernameField.text;
-            loginScreen.SetActive(false);
-            //manager.StartClient();
-            LocalUser.SetLocalUsername(username);
-            OnLogin?.Invoke(this, new OnLoginEventArgs{ user = user});
-        }else{
-            Debug.Log("Did not login");
-        }
-
-    }
 
     public void Logout(){
 
@@ -371,14 +356,9 @@ public class UIManager : MonoBehaviour {
         {
             GameObject newItem = Instantiate<GameObject>(itemButton, itemContent.transform);
             newItem.GetComponent<ItemButton>().index = itemContainer.Items.IndexOf(item);
+            newItem.GetComponent<ItemButton>().itemName = item.name;
             newItem.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>(item.image);
         }
-
-    }
-
-    public void SetCrateAmount(int amount, int i){
-
-        itemContent.transform.GetChild(i).GetComponentInChildren<Text>().text = amount.ToString();
 
     }
     #endregion

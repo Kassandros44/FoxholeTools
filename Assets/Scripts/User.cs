@@ -29,16 +29,12 @@ public class User : MonoBehaviour
 
             uIManager = GameObject.Find("AppUICanvas").GetComponent<UIManager>();
             mapUIManager = GameObject.Find("MapContainer").GetComponent<MapUIManager>();
-            //networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
             LocalUser.SetLocalUser(this.gameObject);
-            UIManager.OnLogin += OnLogin;
+            LoginController.OnLogin += OnLogin;
 
             userXml = new UserModel();
             StartDataManager();
             userXml.username = uIManager.username;
-
-            
-            //RequestStockpileListUpdate();
             UpdateRequestList();
 
             StockpileListItem.OnStockViewChange += OnStockViewChange;
@@ -47,13 +43,12 @@ public class User : MonoBehaviour
 
     }
 
-    private void OnLogin(object sender, UIManager.OnLoginEventArgs e){
+    private void OnLogin(object sender, LoginController.OnLoginEventArgs e){
         CreateUser(e.user);
     }
 
     private void OnStockViewChange(object sender, StockpileListItem.OnViewEventArgs e){
         currentlyViewedStockpile = e.stockpile;
-        //UpdateStockpileContent(e.stockpile);
     }
 
     //[Server]
@@ -81,21 +76,9 @@ public class User : MonoBehaviour
     //[Command]
     void CreateUser(UserModel user){
 
-        //dataManager = LoadData();
-
         ReturnConnection(user.username);
         UpdateMapPins(dataManager);
 
-/*         foreach (var item in dataManager.userData.Users){
-
-            if(item.username == username){
-                return;
-            }
-            
-        } */
-
-        //dataManager.userData.Users.Add(userXml);
-        //SaveData();
         Debug.Log($"{user.username} Connected");
 
     }
@@ -106,69 +89,6 @@ public class User : MonoBehaviour
         Debug.Log(username + " Disconnected");
 
     }
-
-    //[Command]
-/*     public void AddStockpileOnServer(StockpileModel stockpile){
-
-        //dataManager.stockpileData.Stockpiles.Add(stockpile);
-        CreateCrateListOnServer(stockpile);
-        
-        //SaveData();
-
-        //UpdateStockpileList();
-        DatabaseManager.AddStockpile(stockpile);
-
-    } */
-
-    //[Server]
-/*     public void CreateCrateListOnServer(StockpileModel stockpile){
-
-            var itemCollection = ItemContainer.Load();
-
-            foreach (var cItem in itemCollection.Items) {
-
-                Crate crate = new Crate();
-                crate.name = cItem.name;
-                crate.amount = 0;
-                stockpile.crates.Add(crate);
-
-            }
-
-        SaveData();
-        Debug.Log(stockpile.name + " was Saved");
-
-    } */
-
-
-
-    //[Command]
-/*     public void RequestStockpileListUpdate(){
-
-        if(File.Exists(Path.Combine(Application.persistentDataPath, "serverdata.xml"))){
-
-            UpdateStockpileList();
-
-        } else {
-
-            return;
-
-        }
-
-    } */
-
-/*     [Command]
-    public void RequestStockpileData(string id){
-
-        foreach (var item in DatabaseManager.GetAllStockpiles())
-        {
-            Debug.Log(item.name + " " + item.passcode);
-            if(item.Id == id){
-                UpdateStockpileContent(item);
-            }
-
-        }
-
-    } */
 
     //[Command]
     /* 
@@ -348,39 +268,6 @@ public class User : MonoBehaviour
         uIManager.usernameText.text = username;
 
     }
-
-    //[TargetRpc]
- /*    void UpdateStockpileList(){
-
-        for (int i = 0; i < uIManager.listContent.transform.childCount; i++) {
-            
-            Destroy(uIManager.listContent.transform.GetChild(i).gameObject);
-
-        }
-
-        foreach (var item in DatabaseManager.GetAllStockpiles()) {
-            
-            GameObject listItem = Instantiate(uIManager.stockpileListItem, uIManager.listContent.transform);
-            listItem.GetComponent<StockpileListItem>().SetItemUI(item);
-            //listItem.GetComponent<StockpileListItem>().OnStockViewChange += OnStockViewChange;
-
-        }
-
-    } */
-
-    //[TargetRpc]
-/*     public void UpdateStockpileContent(StockpileModel stockpile){
-        
-        currentlyViewedStockpile = stockpile;
-        Debug.Log(currentlyViewedStockpile.name);
-
-        for (int i = 0; i < stockpile.crates.Count; i++) {
-            
-            uIManager.SetCrateAmount(stockpile.crates[i].amount, i);
-
-        }
-
-    } */
 
     //[ClientRpc]
     public void UpdateMapPins(DataManager data){

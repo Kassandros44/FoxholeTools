@@ -1089,13 +1089,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 647174417541206618}
   m_TextComponent: {fileID: 405958263704646099}
   m_Placeholder: {fileID: 7237126533972511738}
-  m_ContentType: 0
+  m_ContentType: 2
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_CharacterLimit: 0
   m_OnSubmit:
     m_PersistentCalls:
@@ -1462,7 +1462,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enter text...
+  m_Text: Enter number...
 --- !u!1 &4979524760634695495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1818,8 +1818,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 547cec187be2d144a9e9ff12a5afc2c5, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2018,6 +2018,8 @@ MonoBehaviour:
     - m_Text: Remove
       m_Image: {fileID: 0}
     - m_Text: Set
+      m_Image: {fileID: 0}
+    - m_Text: Set Quota
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:

@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Xml;
-using System.Xml.Serialization;
+using Newtonsoft.Json.Linq;
 using System;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
@@ -13,11 +9,7 @@ public class UserModel {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id;
-    [XmlAttribute("Username")]
     public string username;
-    [XmlAttribute("Passkey")]
-    private string passkey;
-    public string Passkey { get; set; }
     private enum rank{
         RIP,
         Member,
@@ -26,11 +18,15 @@ public class UserModel {
         HighCommand
     }
 
-    public UserModel(){
+    public UserModel(){}
 
-        Id = "";
-        username = "Default";
-        passkey = "";
+    public UserModel(JObject jobject){
+        if(jobject.ContainsKey("id")){
+            Id = (string)jobject["id"];
+        }
+        if(jobject.ContainsKey("username")){
+            username = (string)jobject["username"];
+        }
 
     }
 

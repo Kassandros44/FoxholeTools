@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using FoxholeTools.Utils;
 
 public class NewAccSubmit : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class NewAccSubmit : MonoBehaviour
     public TMP_InputField passkeyField;
     public TMP_InputField valPasskeyField;
 
-    public void Update(){
+/*     public void Update(){
 
         if(passkeyField.text == valPasskeyField.text && passkeyField.text != ""){
             this.gameObject.GetComponent<Button>().interactable=true;
@@ -19,20 +20,27 @@ public class NewAccSubmit : MonoBehaviour
             this.gameObject.GetComponent<Button>().interactable=false;
         }
 
-    }
+    } */
 
     public void CreateAccount(){
+        
+        string findUrl = $"{Helper.apiHost}:{Helper.apiPort}/users/find/{usernameField.text}";
+        string addUrl = $"{Helper.apiHost}:{Helper.apiPort}/users";
 
         UserModel user = new UserModel{
             username=usernameField.text,
-            Passkey=passkeyField.text
+            //Passkey=passkeyField.text
         };
 
-        if(!DatabaseManager.UserExists(user.username)){
-            DatabaseManager.AddUser(user);
+        WebRequests.Get(findUrl, (i)=>{},(data)=>{
+        if(data != "true"){
+            WebRequests.Put(addUrl, user, (i)=>{}, (i)=>{});
         }else{
             Debug.Log($"{user.username} already exists!");
             return;
         }
+        });
+
+
     }
 }

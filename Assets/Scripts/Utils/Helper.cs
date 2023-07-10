@@ -81,4 +81,14 @@ public static class Helper{
         return list;
     }
 
+    public static T GetObjectFromData<T>(string data) where T : class{
+
+        ConstructorInfo ctor = typeof(T).GetConstructor(new[] {typeof(JObject)});
+        ObjectActivator<T> createdActivator = GetActivator<T>(ctor);
+
+        JObject jobject = JObject.Parse(data);
+        T newObject = createdActivator(jobject);
+        return newObject;
+    }
+
 }

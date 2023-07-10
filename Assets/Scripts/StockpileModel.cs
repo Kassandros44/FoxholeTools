@@ -80,6 +80,7 @@ public class StockpileModel {
             Crate crate = new Crate();
             crate.name = cItem.name;
             crate.amount = 0;
+            crate.quota = 0;
             stockpile.crates.Add(crate);
 
         }
@@ -144,6 +145,26 @@ public class StockpileModel {
                 item.amount = num;
                 stockpile.logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Set", item.name, num.ToString()));
                 Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "set" + ": " + num + " " + item.name + " crates");
+
+            }
+
+        }
+
+        WebRequests.Put($"{url}/{stockpile.Id}", stockpile, (i) => {}, (i) => {});
+
+    }
+
+    public void SetQuotaInStockpile(StockpileModel stockpile, int index, int num, string username){
+
+        string url = "http://localhost:5191/stockpiles";
+
+        foreach (var item in stockpile.crates) {
+            
+            if(stockpile.crates.IndexOf(item) == index){
+
+                item.quota = num;
+                stockpile.logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Set Quota", item.name, num.ToString()));
+                Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "set quota" + ": " + num + " " + item.name + " crates");
 
             }
 

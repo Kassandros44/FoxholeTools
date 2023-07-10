@@ -1,50 +1,73 @@
 <?xml version="1.0"?>
 <ItemsContainer>
   <Items>
-    <Item Name="Loughcaster" Image="Loughcaster"/>
-    <Item Name="Blakerow" Image="Blakerow"/>
-    <Item Name="7.62mm" Image="Ammo/7.62mm" />
-    <Item Name="Fiddler" Image="Fiddler"/>
-    <Item Name="Lair" Image="Lair"/>
-    <Item Name="9mm" Image="Ammo/9mm" />
-    <Item Name="Storm Rifle" Image="Aalto"/>
-    <Item Name="Booker" Image="Booker"/>
-    <Item Name="7.92mm" Image="Ammo/7.92mm" />
-    <Item Name="ConfettiCannon" Image="Shotgun"/>
-    <Item Name="Buckshot" Image="Ammo/Buckshot" />
-    <Item Name="Cascadier" Image="Cascadier"/>
-    <Item Name="8mm" Image="Ammo/8mm" />
-    <Item Name="Revolver" Image="Revolver"/>
-    <Item Name=".44" Image="Ammo/44" />
-    <Item Name="Bonesaw" Image="Bonesaw"/>
-    <Item Name="Mounted Bonesaw" Image="MountedBonesaw"/>
-    <Item Name="ATRPG Indirect" Image="Ammo/ATRPGIndirect" />
-    <Item Name="Neville AT Rifle" Image="Neville"/>
-    <Item Name="20mm" Image="Ammo/20mm" />
-    <Item Name="Cutler Launcher" Image="Cutler"/>
-    <Item Name="RPG Shell" Image="Ammo/RPGShell" />
-    <Item Name="Malone" Image="Malone"/>
-    <Item Name="12.7mm" Image="Ammo/12.7mm" />
-    <Item Name="Clancy-Raca" Image="ClancyRaca"/>
-    <Item Name="8.5mm" Image="Ammo/8.5mm" />
-    <Item Name="Mortar" Image="Mortar"/>
-    <Item Name="Mortar Shell" Image="Ammo/MortarShell" />
-    <Item Name="Harpa" Image="Grenade"/>
-    <Item Name="Green Ash" Image="GreenAsh"/>
-    <Item Name="Mammon" Image="Mammon"/>
-    <Item Name="AT Sticky Grenade" Image="Sticky"/>
-    <Item Name="White Ash" Image="WhiteAsh"/>
-    <Item Name="Smoke Grenade" Image="SmokeGrenade"/>
-    <Item Name="Bayonet" Image="Bayonet"/>
-    <Item Name="AT Landmine" Image="LandMine"/>
-    <Item Name="Satchel Charge" Image="Satchel"/>
-    <Item Name="30mm" Image="Ammo/30mm" />
-    <Item Name="40mm" Image="Ammo/40mm" />
-    <Item Name="68mm" Image="Ammo/68mm" />
-    <Item Name="120mm" Image="Ammo/120mm" />
-    <Item Name="150mm" Image="Ammo/150mm" />
-    <Item Name="250mm" Image="Ammo/250mm" />
-    <Item Name="300mm" Image="Ammo/300mm" />
+    <Item Name="Loughcaster" Image="SmallArms/Loughcaster"/>
+    <Item Name="Blakerow" Image="SmallArms/Blakerow"/>
+    <Item Name="Sampo" Image="SmallArms/Sampo"/>
+    <Item Name="Hawthorne" Image="SmallArms/Hawthorne"/>
+    <Item Name="Clancy-Cinder" Image="SmallArms/ClancyCinder"/>
+    <Item Name="Clancy-Raca" Image="SmallArms/ClancyRaca"/>
+    <Item Name="7.62mm" Image="SmallArms/Ammo/7.62mm" />
+    <Item Name="Fiddler" Image="SmallArms/Fiddler"/>
+    <Item Name="Lair" Image="SmallArms/Lair"/>
+    <Item Name="9mm" Image="SmallArms/Ammo/9mm" />
+    <Item Name="Storm Rifle" Image="SmallArms/Aalto"/>
+    <Item Name="Booker" Image="SmallArms/Booker"/>
+    <Item Name="7.92mm" Image="SmallArms/Ammo/7.92mm" />
+    <Item Name="ConfettiCannon" Image="SmallArms/Shotgun"/>
+    <Item Name="Buckshot" Image="SmallArms/Ammo/Buckshot" />
+    <Item Name="Cascadier" Image="SmallArms/Cascadier"/>
+    <Item Name="8mm" Image="SmallArms/Ammo/8mm" />
+    <Item Name="Revolver" Image="SmallArms/Revolver"/>
+    <Item Name="Hangman" Image="SmallArms/Hangman"/>
+    <Item Name=".44" Image="SmallArms/Ammo/44" />
+    <Item Name="Malone" Image="SmallArms/Malone"/>
+    <Item Name="12.7mm" Image="SmallArms/Ammo/12.7mm" />
+    <Item Name="Harpa" Image="SmallArms/Grenade"/>
+    <Item Name="Green Ash" Image="SmallArms/GreenAsh"/>
+    <Item Name="Smoke Grenade" Image="SmallArms/SmokeGrenade"/>
+
+    <Item Name="Bonesaw" Image="HeavyArms/Bonesaw"/>
+    <Item Name="Mounted Bonesaw" Image="HeavyArms/MountedBonesaw"/>
+    <Item Name="ATRPG Indirect" Image="HeavyArms/Ammo/ATRPGIndirect" />
+    <Item Name="Ratcatcher" Image="HeavyArms/Ratcatcher"/>
+    <Item Name="Neville AT Rifle" Image="HeavyArms/Neville"/>
+    <Item Name="20mm" Image="HeavyArms/Ammo/20mm" />
+    <Item Name="Cutler Launcher" Image="HeavyArms/Cutler"/>
+    <Item Name="Foebreaker" Image="HeavyArms/Foebreaker"/>
+    <Item Name="RPG Shell" Image="HeavyArms/Ammo/RPGShell" />
+    <Item Name="Mortar" Image="HeavyArms/Mortar"/>
+    <Item Name="Mortar Shell" Image="HeavyArms/Ammo/MortarShell" />
+    <Item Name="Mortar Shrapnel Shell" Image="HeavyArms/Ammo/MortarShellShrapnel" />
+    <Item Name="Mortar Flare Shell" Image="HeavyArms/Ammo/MortarShellFlare" />
+    <Item Name="Mammon" Image="HeavyArms/Mammon"/>
+    <Item Name="Tremola" Image="HeavyArms/Ammo/Tremola"/>
+    <Item Name="AT Sticky Grenade" Image="HeavyArms/Sticky"/>
+    <Item Name="White Ash" Image="HeavyArms/WhiteAsh"/>
+    
+    <Item Name="30mm" Image="Shells/30mm" />
+    <Item Name="40mm" Image="Shells/40mm" />
+    <Item Name="68mm" Image="Shells/68mm" />
+    <Item Name="75mm" Image="Shells/75mm" />
+    <Item Name="94.5mm" Image="Shells/94.5mm" />
+    <Item Name="120mm" Image="Shells/120mm" />
+    <Item Name="150mm" Image="Shells/150mm" />
+    <Item Name="250mm" Image="Shells/250mm" />
+    <Item Name="300mm" Image="Shells/300mm" />
+    <Item Name="HE Rocket" Image="Shells/HERocket" />
+    <Item Name="Fire Rocket" Image="Shells/FireRocket" />
+    <Item Name="Flame Ammo" Image="Shells/FlameAmmo" />
+
+    <Item Name="Barbed Wire" Image="Utility/BarbedWire" />
+    <Item Name="Sandbags" Image="Utility/Sandbags" />
+    <Item Name="Metal Beam" Image="Utility/MetalBeam" />
+    <Item Name="Bayonet" Image="Utility/Bayonet"/>
+    <Item Name="Ospray" Image="Utility/Ospray" />
+    <Item Name="AT Landmine" Image="Utility/LandMine"/>
+    <Item Name="Satchel Charge" Image="Utility/Satchel"/>
+    <Item Name="Havoc Charge" Image="Utility/HavocCharge" />
+    <Item Name="Havoc Detenator" Image="Utility/HavocDetenator" />
+    <Item Name="Willows Bane Ammo" Image="Utility/WillowsBaneAmmo" />
     <Item Name="Binoculars" Image="Utility/Binoculars" />
     <Item Name="Gas Mask" Image="Utility/GasMask" />
     <Item Name="Gas Mask Filter" Image="Utility/Filter" />
@@ -53,21 +76,48 @@
     <Item Name="Shovel" Image="Utility/Shovel" />
     <Item Name="Sledge Hammer" Image="Utility/SledgeHammer" />
     <Item Name="Tripod" Image="Utility/Tripod" />
+    <Item Name="Listening Kit" Image="Utility/ListeningKit" />
     <Item Name="Wrench" Image="Utility/Wrench" />
+    <Item Name="Water Bucket" Image="Utility/WaterBucket" />
+
     <Item Name="First Aid Kit" Image="Medical/FirstAidKit" />
     <Item Name="Bandages" Image="Medical/Bandages" />
     <Item Name="Trauma Kit" Image="Medical/TraumaKit" />
     <Item Name="Blood Plasma" Image="Medical/BloodPlasma" />
-    <Item Name="Soldier Supplies" Image="Supplies/SS" />
-    <Item Name="Garrison Supplies" Image="Supplies/GSup" />
-    <Item Name="Bunker Supplies" Image="Supplies/BSup" />
+    <Item Name="Soldier Supplies" Image="Medical/SS" />
+
+    <Item Name="Maintenace Supplies" Image="Supplies/MSupp" />
     <Item Name="Aluminium Alloy" Image="Supplies/AlumAlloy" />
     <Item Name="Iron Alloy" Image="Supplies/IronAlloy" />
+    <Item Name="Copper Alloy" Image="Supplies/CopperAlloy" />
     <Item Name="Basic Matierals" Image="Supplies/BMats" />
     <Item Name="Explosive Maierals" Image="Supplies/EMats" />
     <Item Name="Refined Matierals" Image="Supplies/RMats" />
     <Item Name="Heavy Explosive Matierals" Image="Supplies/HEMats" />
     <Item Name="Diesel" Image="Supplies/Diesel" />
     <Item Name="Petrol" Image="Supplies/Petrol" />
+    <Item Name="Gravel" Image="Supplies/Gravel" />
+    <Item Name="Assembly Materials I" Image="Supplies/AssMat1" />
+    <Item Name="Assembly Materials II" Image="Supplies/AssMat2" />
+    <Item Name="Assembly Materials III" Image="Supplies/AssMat3" />
+    <Item Name="Assembly Materials IV" Image="Supplies/AssMat4" />
+    <Item Name="Assembly Materials V" Image="Supplies/AssMat5" />
+    <Item Name="Construction Materials" Image="Supplies/CMat" />
+    <Item Name="Processed Construction Materials" Image="Supplies/PCMat" />
+    <Item Name="Steel" Image="Supplies/Steel" />
+    <Item Name="Pipe" Image="Supplies/Pipe" />
+    <Item Name="Water" Image="Supplies/Water" />
+    <Item Name="Oil" Image="Supplies/Oil" />
+    <Item Name="Heavy Oil" Image="Supplies/HOil" />
+    <Item Name="Enriched Oil" Image="Supplies/EOil" />
+
+    <Item Name="Specialists Overcoat" Image="Uniforms/AmmoUniform" />
+    <Item Name="Gunners Breastplate" Image="Uniforms/ArmourUniform" />
+    <Item Name="Sapper Gear" Image="Uniforms/EngineerUniform" />
+    <Item Name="Physicians Jacket" Image="Uniforms/MedicUniform" />
+    <Item Name="Officers Regalia" Image="Uniforms/OfficerUniform" />
+    <Item Name="Outriders Mantle" Image="Uniforms/ScoutUniform" />
+    <Item Name="Caoivish Parka" Image="Uniforms/SnowUniform" />
+    <Item Name="Padded Boiler Suit" Image="Uniforms/TankUniform" />
   </Items>
 </ItemsContainer>

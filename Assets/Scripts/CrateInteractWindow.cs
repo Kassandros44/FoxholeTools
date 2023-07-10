@@ -41,6 +41,9 @@ public class CrateInteractWindow : NetworkBehaviour {
             case 2:
                 InputType = m_stockpile.SetCratesInStockpile;
                 break;
+            case 3:
+                InputType = m_stockpile.SetQuotaInStockpile;
+                break;
         }
 
     }
@@ -55,23 +58,6 @@ public class CrateInteractWindow : NetworkBehaviour {
         InputType(m_stockpile, index, int.Parse(inputField.text), LocalUser.GetUsername());
         OnSubmit?.Invoke(this, new OnSubmitEventArgs{stockpile = m_stockpile});
         CloseWindow();
-
-/*         switch (dropdown.value)
-        {
-            
-            case 0:
-                LocalUser.GetUserComponent().AddCratesToStockpile(stockpile, index, int.Parse(inputField.text), LocalUser.GetUsername());
-                CloseWindow();
-                break;
-            case 1:
-                LocalUser.GetUserComponent().RemoveCratesFromStockpile(stockpile, index, int.Parse(inputField.text), LocalUser.GetUsername());
-                CloseWindow();
-                break;
-            case 2:
-                LocalUser.GetUserComponent().SetCratesInStockpile(stockpile, index, int.Parse(inputField.text), LocalUser.GetUsername());
-                CloseWindow();
-                break;
-        } */
 
     }
 

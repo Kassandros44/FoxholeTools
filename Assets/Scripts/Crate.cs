@@ -1,17 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Xml;
-using System.Xml.Serialization;
 using Newtonsoft.Json.Linq;
 
 public class Crate {
 
-    [XmlAttribute("Name")]
     public string name;
-
-    [XmlAttribute("Amount")]
     public int amount;
+    public int quota;
 
     public Crate(){}
 
@@ -21,6 +16,9 @@ public class Crate {
         }
         if(jobject.ContainsKey("amount")){
             amount = (int)jobject["amount"];
+        }
+        if(jobject.ContainsKey("quota")){
+            quota = (int)jobject["quota"];
         }
     }
 
