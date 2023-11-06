@@ -22,9 +22,9 @@ public class LoginController : MonoBehaviour
     }
 
     public void Login(){
-        
-        string url = $"{Helper.apiHost}:{Helper.apiPort}/users/{usernameField.text}";
-        string keyUrl = $"{Helper.apiHost}:{Helper.apiPort}/checklogin/{passkeyField.text}";
+
+        string url = $"{Helper.apiHost + Helper.apiPort}/users/{usernameField.text}";
+        string keyUrl = $"{Helper.apiHost + Helper.apiPort}/checklogin/{passkeyField.text}";
         UserModel user = new UserModel();
         WebRequests.Get(keyUrl, (i)=>{}, (keyData)=>{
             Debug.Log(keyData);
@@ -48,5 +48,11 @@ public class LoginController : MonoBehaviour
                 Debug.Log("Incorrect Password");
             }
         });
+    }
+
+    public void DiscordLogin()
+    {
+        if(LocalUser.GetUsername() != null)
+            loginScreen.SetActive(false);
     }
 }

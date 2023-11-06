@@ -24,8 +24,8 @@ public class NewAccSubmit : MonoBehaviour
 
     public void CreateAccount(){
         
-        string findUrl = $"{Helper.apiHost}:{Helper.apiPort}/users/find/{usernameField.text}";
-        string addUrl = $"{Helper.apiHost}:{Helper.apiPort}/users";
+        string findUrl = $"{Helper.apiHost+Helper.apiPort}/users/find/{usernameField.text}";
+        string addUrl = $"{Helper.apiHost+Helper.apiPort}/users";
 
         UserModel user = new UserModel{
             username=usernameField.text,

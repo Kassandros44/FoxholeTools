@@ -9,23 +9,34 @@ public class UserModel {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id;
+    public string discordId;
     public string username;
-    private enum rank{
-        RIP,
-        Member,
-        KR,
-        Officer,
-        HighCommand
-    }
+    public string globalName;
+    public string rank;
 
     public UserModel(){}
 
-    public UserModel(JObject jobject){
-        if(jobject.ContainsKey("id")){
+    public UserModel(JObject jobject)
+    {
+        if(jobject.ContainsKey("id"))
+        {
             Id = (string)jobject["id"];
         }
-        if(jobject.ContainsKey("username")){
+        if (jobject.ContainsKey("discordId"))
+        {
+            discordId = (string)jobject["discordId"];
+        }
+        if (jobject.ContainsKey("username"))
+        {
             username = (string)jobject["username"];
+        }
+        if (jobject.ContainsKey("globalName"))
+        {
+            globalName = (string)jobject["globalName"];
+        }
+        if(jobject.ContainsKey("rank"))
+        {
+            rank = (string)jobject["rank"];
         }
 
     }

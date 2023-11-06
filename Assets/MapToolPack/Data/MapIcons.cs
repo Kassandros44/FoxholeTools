@@ -20,14 +20,14 @@ public static class MapIcons
             MapIcons.SpriteText.Add(9, "MapIcons/MapIconStaticForwardBase2");
             MapIcons.SpriteText.Add(10, "MapIcons/MapIconStaticForwardBase3");
 
-            MapIcons.SpriteText.Add(11, "MapIcons/MapIconStaticHospital");
-            MapIcons.SpriteText.Add(12, "MapIcons/MapIconStaticVehicleFactory");
+            MapIcons.SpriteText.Add(11, "MapIcons/MapIconMedical");
+            MapIcons.SpriteText.Add(12, "MapIcons/MapIconVehicle");
             MapIcons.SpriteText.Add(13, "MapIcons/MapIconStaticArmory");
 
-            MapIcons.SpriteText.Add(20, "MapIcons/MapIconStaticArmory");
-            MapIcons.SpriteText.Add(21, "MapIcons/MapIconStaticComponets");
-            MapIcons.SpriteText.Add(22, "MapIcons/MapIconFuel");
-            MapIcons.SpriteText.Add(23, "MapIcons/MapIconStaticSulfur");
+            MapIcons.SpriteText.Add(20, "MapIcons/MapIconSalvage");
+            MapIcons.SpriteText.Add(21, "MapIcons/MapIconComponents");
+            MapIcons.SpriteText.Add(22, "MapIcons/MapIconOilWell");
+            MapIcons.SpriteText.Add(23, "MapIcons/MapIconSulfur");
 
             MapIcons.SpriteText.Add(28, "MapIcons/MapIconObservationTower");
             MapIcons.SpriteText.Add(32, "MapIcons/MapIconSulfurMine");
@@ -46,9 +46,15 @@ public static class MapIcons
             MapIcons.SpriteText.Add(46, "MapIcons/MapIconRelicBase");
             MapIcons.SpriteText.Add(47, "MapIcons/MapIconRelicBase");
 
+            MapIcons.SpriteText.Add(48, "MapIcons/MapIconBunkerBaseTier1");
+            MapIcons.SpriteText.Add(49, "MapIcons/MapIconBunkerBaseTier2");
+            MapIcons.SpriteText.Add(50, "MapIcons/MapIconBunkerBaseTier3");
+
             MapIcons.SpriteText.Add(51, "MapIcons/MapIconMassProductionFactory");
             MapIcons.SpriteText.Add(52, "MapIcons/MapIconSeaport");
 
+            MapIcons.SpriteText.Add(61, "MapIcons/MapIconCoal");
+            MapIcons.SpriteText.Add(62, "MapIcons/MapIconOilWell");
 
             MapIcons.sprites = new Dictionary<int, Sprite>();
 

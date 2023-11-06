@@ -11,7 +11,7 @@ public class StockDltWindow : MonoBehaviour
     public void ConfirmYes(){
         string id = stockpile.Id;
         Debug.Log($"Confirm ID: {id}");
-        WebRequests.Delete($"{Helper.apiHost}:{Helper.apiPort}/stockpiles/delete/{id}", onError=>{}, onSuccess=>{});
+        WebRequests.Delete($"{Helper.apiHost+Helper.apiPort}/stockpiles/delete/{id}", onError=>{}, onSuccess=>{});
         GameObject.Destroy(this.gameObject);
     }
     public void ConfirmNo(){

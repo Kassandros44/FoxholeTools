@@ -17,8 +17,6 @@ public class User : MonoBehaviour
     [SerializeField]
     private NetworkManager networkManager;
 
-    public UserModel userXml;
-
     public StockpileModel currentlyViewedStockpile;
 
     public DataManager dataManager;
@@ -27,28 +25,31 @@ public class User : MonoBehaviour
 
         //if(isLocalPlayer){
 
-            uIManager = GameObject.Find("AppUICanvas").GetComponent<UIManager>();
-            mapUIManager = GameObject.Find("MapContainer").GetComponent<MapUIManager>();
-            LocalUser.SetLocalUser(this.gameObject);
-            LoginController.OnLogin += OnLogin;
+        uIManager = GameObject.Find("AppUICanvas").GetComponent<UIManager>();
+        mapUIManager = GameObject.Find("MapContainer").GetComponent<MapUIManager>();
+        LocalUser.SetLocalUser(this.gameObject);
+        //LoginController.OnLogin += OnLogin;
+        DiscordAuthHandler.OnAuthComplete += OnDiscordAuth;
 
-            userXml = new UserModel();
-            StartDataManager();
-            userXml.username = uIManager.username;
-            UpdateRequestList();
-
-            StockpileListItem.OnStockViewChange += OnStockViewChange;
+        StartDataManager();
+        UpdateRequestList();
+        StockpileListItem.OnStockViewChange += OnStockViewChange;
 
         //}
 
     }
 
-    private void OnLogin(object sender, LoginController.OnLoginEventArgs e){
-        CreateUser(e.user);
-    }
+    //private void OnLogin(object sender, LoginController.OnLoginEventArgs e){
+    //    CreateUser(e.user);
+    //}
 
     private void OnStockViewChange(object sender, StockpileListItem.OnViewEventArgs e){
         currentlyViewedStockpile = e.stockpile;
+    }
+
+    private void OnDiscordAuth(object sender, DiscordAuthHandler.AuthEventArgs e)
+    {
+        LocalUser.SetLocalUsername(e.userModel.username);
     }
 
     //[Server]
@@ -72,113 +73,6 @@ public class User : MonoBehaviour
         dataManager = new DataManager();
 
     }
-
-    //[Command]
-    void CreateUser(UserModel user){
-
-        ReturnConnection(user.username);
-        UpdateMapPins(dataManager);
-
-        Debug.Log($"{user.username} Connected");
-
-    }
-
-    //[Command]
-    public void ClientDisconnected(string username){
-
-        Debug.Log(username + " Disconnected");
-
-    }
-
-    //[Command]
-    /* 
-    public void AddCratesToStockpile(StockpileModel stockpile, int index, int num, string username){
-
-        foreach (var item in stockpile.crates) {
-
-            Debug.Log(stockpile.crates.IndexOf(item) + "--" + index);
-
-            if(stockpile.crates.IndexOf(item) == index){
-
-                item.amount += num;
-                stockpile.Logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Added", item.name, num.ToString()));
-                Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "added" + ": " + num + " " + item.name + " crates");
-
-            }
-
-        }
-
-        foreach (var item in dataManager.stockpileData.Stockpiles)
-        {
-            if(item.passcode == stockpile.passcode){
-                item.crates = stockpile.crates;
-                item.Logs = stockpile.Logs;
-            }
-        }
-        SaveData();
-        Debug.Log(stockpile.Id);
-        DatabaseManager.UpdateStockpile(stockpile);
-        UpdateStockpileContent(stockpile);
-        
-    } */
-
-    //[Command]
-/*     public void RemoveCratesFromStockpile(StockpileModel stockpile, int index, int num, string username){
-
-        foreach (var item in stockpile.crates) {
-            
-            if(stockpile.crates.IndexOf(item) == index){
-
-                item.amount -= num;
-                stockpile.Logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Removed", item.name, num.ToString()));
-                Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "removed" + ": " + num + " " + item.name + " crates");
-
-            }
-
-        }
-
-        foreach (var item in dataManager.stockpileData.Stockpiles)
-        {
-            if(item.passcode == stockpile.passcode){
-                item.crates = stockpile.crates;
-                item.Logs = stockpile.Logs;
-            }
-        }
-
-        SaveData();
-        DatabaseManager.UpdateStockpile(stockpile);
-        UpdateStockpileContent(stockpile);
-
-    } */
-
-    //[Command]
-/*     public void SetCratesInStockpile(StockpileModel stockpile, int index, int num, string username){
-
-        foreach (var item in stockpile.crates) {
-            
-            if(stockpile.crates.IndexOf(item) == index){
-
-                item.amount = num;
-                stockpile.Logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Set", item.name, num.ToString()));
-                Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "set" + ": " + num + " " + item.name + " crates");
-
-            }
-
-        }
-
-        foreach (var item in dataManager.stockpileData.Stockpiles)
-        {
-            if(item.passcode == stockpile.passcode){
-                item.crates = stockpile.crates;
-                item.Logs = stockpile.Logs;
-            }
-        }
-
-        SaveData();
-        DatabaseManager.UpdateStockpile(stockpile);
-        UpdateStockpileContent(stockpile);
-
-    } */
 
     //request code
     //[Command]
@@ -258,14 +152,6 @@ public class User : MonoBehaviour
 
         SaveData();
         UpdateMapPins(dataManager);
-
-    }
-
-    //[TargetRpc]
-    void ReturnConnection(string username){
-
-        Debug.Log(username);
-        uIManager.usernameText.text = username;
 
     }
 

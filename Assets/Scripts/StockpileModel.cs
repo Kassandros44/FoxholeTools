@@ -65,7 +65,7 @@ public class StockpileModel {
 
     public static void CreateNewStockpile(string name, string loc, string pass){
 
-        string url = "http://localhost:5191/stockpiles";
+        string url = $"{Helper.apiHost + Helper.apiPort}/stockpiles/new";
 
         var stockpile = new StockpileModel{
             name=name,
@@ -94,7 +94,7 @@ public class StockpileModel {
 
     public void AddCratesToStockpile(StockpileModel stockpile, int index, int num, string username){
 
-        string url = "http://localhost:5191/stockpiles";
+        string url = $"{Helper.apiHost+Helper.apiPort}/stockpiles/update";
 
         foreach (var item in stockpile.crates) {
 
@@ -102,8 +102,12 @@ public class StockpileModel {
 
             if(stockpile.crates.IndexOf(item) == index){
 
-                item.amount += num;
+                item.amount += Math.Abs(num);
                 stockpile.logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Added", item.name, num.ToString()));
+                if(item.amount > 9999){
+                    item.amount = 9999;
+                    stockpile.logs.Add(new Log("System", DateTime.UtcNow.ToString(), "Clamped", item.name, "9999"));
+                }
                 Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "added" + ": " + num + " " + item.name + " crates");
 
             }
@@ -116,14 +120,18 @@ public class StockpileModel {
 
     public void RemoveCratesFromStockpile(StockpileModel stockpile, int index, int num, string username){
 
-        string url = "http://localhost:5191/stockpiles";
+        string url = $"{Helper.apiHost+Helper.apiPort}/stockpiles/update";
 
         foreach (var item in stockpile.crates) {
             
             if(stockpile.crates.IndexOf(item) == index){
 
-                item.amount -= num;
+                item.amount -= Math.Abs(num);
                 stockpile.logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Removed", item.name, num.ToString()));
+                if(item.amount < 0){
+                    item.amount = 0;
+                    stockpile.logs.Add(new Log("System", DateTime.UtcNow.ToString(), "Clamped", item.name, "0"));
+                }
                 Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "removed" + ": " + num + " " + item.name + " crates");
 
             }
@@ -136,7 +144,7 @@ public class StockpileModel {
 
     public void SetCratesInStockpile(StockpileModel stockpile, int index, int num, string username){
 
-        string url = "http://localhost:5191/stockpiles";
+        string url = $"{Helper.apiHost+Helper.apiPort}/stockpiles/update";
 
         foreach (var item in stockpile.crates) {
             
@@ -144,6 +152,13 @@ public class StockpileModel {
 
                 item.amount = num;
                 stockpile.logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Set", item.name, num.ToString()));
+                if(item.amount < 0){
+                    item.amount = 0;
+                    stockpile.logs.Add(new Log("System", DateTime.UtcNow.ToString(), "Clamped", item.name, "0"));
+                } else if(item.amount > 9999){
+                    item.amount = 9999;
+                    stockpile.logs.Add(new Log("System", DateTime.UtcNow.ToString(), "Clamped", item.name, "9999"));
+                }
                 Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "set" + ": " + num + " " + item.name + " crates");
 
             }
@@ -156,7 +171,7 @@ public class StockpileModel {
 
     public void SetQuotaInStockpile(StockpileModel stockpile, int index, int num, string username){
 
-        string url = "http://localhost:5191/stockpiles";
+        string url = $"{Helper.apiHost+Helper.apiPort}/stockpiles/update";
 
         foreach (var item in stockpile.crates) {
             
@@ -164,6 +179,13 @@ public class StockpileModel {
 
                 item.quota = num;
                 stockpile.logs.Add(new Log(username, DateTime.UtcNow.ToString(), "Set Quota", item.name, num.ToString()));
+                if(item.quota < 0){
+                    item.quota = 0;
+                    stockpile.logs.Add(new Log("System", DateTime.UtcNow.ToString(), "Clamped", item.name, "0"));
+                } else if(item.quota > 9999){
+                    item.quota = 9999;
+                    stockpile.logs.Add(new Log("System", DateTime.UtcNow.ToString(), "Clamped", item.name, "9999"));
+                }
                 Debug.Log(username + ": " + DateTime.UtcNow.ToString() + " " + "set quota" + ": " + num + " " + item.name + " crates");
 
             }

@@ -65,8 +65,6 @@ public class UIManager : MonoBehaviour {
     public GameObject mapMarkerWindow;
     public GameObject orderlistScrollview;
 
-    public string username;
-
     public bool isUIOverride;
     public ItemContainer itemContainer;
     #endregion
@@ -86,6 +84,7 @@ public class UIManager : MonoBehaviour {
         Helper.LoadDotEnv();
         MapUIManager mapUIManager = GameObject.Find("MapContainer").GetComponent<MapUIManager>();
         mapUIManager.OnRightMouseDown += SpawnMapMenu_OnRightMouseDown;
+        DiscordAuthHandler.OnAuthComplete += OnDiscordAuth;
 
         GenerateItems();
         
@@ -108,6 +107,12 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    private void OnDiscordAuth(object sender, DiscordAuthHandler.AuthEventArgs e)
+    {
+        usernameField.text = e.userModel.username;
+        usernameText.text = e.userModel.username;
+    }
+
     private void Update() {
 
         if(!NetworkClient.isConnected){
@@ -126,7 +131,7 @@ public class UIManager : MonoBehaviour {
 
     void UpdateStockpileList(){
         
-        string url = $"{Helper.apiHost}:{Helper.apiPort}/stockpiles";
+        string url = $"{Helper.apiHost+Helper.apiPort}/stockpiles";
         WebRequests.Get(url, (list) => {}, (data) => {
 
             Transform listObjectTransform = listContent.transform;
@@ -322,17 +327,7 @@ public class UIManager : MonoBehaviour {
 
     public void Logout(){
 
-        if(NetworkClient.isConnected){
-            
-            LocalUser.GetLocalUser().GetComponent<User>().ClientDisconnected(username);
-            manager.StopClient();
-            loginScreen.SetActive(true);
-
-        } else {
-
-            loginScreen.SetActive(true);
-
-        }
+        loginScreen.SetActive(true);
 
     }
 

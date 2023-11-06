@@ -29,6 +29,7 @@ namespace FoxholeTools.Utils{
                 yield return webRequest.SendWebRequest();
                 if(webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError){
                     Debug.Log(webRequest.error);
+                    Debug.Log(url);
 
                 }else{
                     onReceived?.Invoke(webRequest.downloadHandler.text);
@@ -38,6 +39,7 @@ namespace FoxholeTools.Utils{
 
         public static void Put(string url, object obj, Action<string> onError, Action<string> onReceived){
             string json = JObject.FromObject(obj).ToString();
+            Debug.Log(json);
             Init();
             webRequestsMonoBehaviour.StartCoroutine(PutRequestEnumerator(url, json));
         }
@@ -48,6 +50,7 @@ namespace FoxholeTools.Utils{
                 yield return webRequest.SendWebRequest();
                 if(webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError){
                     Debug.Log(webRequest.error);
+                    Debug.Log($"URL:{url} DATA:{data}");
                 }else{
                     Debug.Log(webRequest.result);
                 }

@@ -10,8 +10,16 @@ using Newtonsoft.Json.Linq;
 
 public static class Helper{
 
-    public static string apiHost = Environment.GetEnvironmentVariable("API_HOST");
-    public static string apiPort = Environment.GetEnvironmentVariable("API_PORT");
+    public static string discordClientID = "1138105236007948341";
+    public static string discordRedrectURI = "https://localhost:7253/discord-login";
+
+    #if UNITY_EDITOR
+    public static string apiHost = Environment.GetEnvironmentVariable("LOCALHOST");
+    public static string apiPort = Environment.GetEnvironmentVariable("LOCAL_PORT");
+    #elif UNITY_STANDALONE_WIN
+    public static string apiHost = "https://foxholetoolsapi.azurewebsites.net";
+    public static string apiPort = "";
+    #endif
 
     public static void LoadDotEnv(){
         string root = Directory.GetCurrentDirectory();
