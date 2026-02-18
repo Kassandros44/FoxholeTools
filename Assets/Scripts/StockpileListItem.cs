@@ -17,10 +17,33 @@ public class StockpileListItem : MonoBehaviour {
 
     public StockpileModel stockpileXml;
 
+    private ContentPresenter presenter;
+
+    [SerializeField]
+    private StockpileModel.simpleData stockpileData;
+
+
+    private void Awake()
+    {
+        presenter = transform.parent.GetComponent<ContentPresenter>();
+        presenter.OnContentDrawn.AddListener(DrawUI);
+    }
+
     private void Start() {
         
         uIManager = GameObject.Find("AppUICanvas").GetComponent<UIManager>();
 
+    }
+
+    private void DrawUI(StockpileModel.simpleData data)
+    {
+        nameText.text = data.name;
+        locationText.text = data.location;
+        passcodeText.text = data.passcode;
+
+        stockpileData = data;
+
+        presenter.OnContentDrawn.RemoveListener(DrawUI);
     }
 
     public void SetItemUI(StockpileModel stockpile){
@@ -34,16 +57,19 @@ public class StockpileListItem : MonoBehaviour {
     }
 
     public static event EventHandler<OnViewEventArgs> OnStockViewChange;
+    public static event EventHandler<string> OnViewChange;
     public class OnViewEventArgs : EventArgs{
         public StockpileModel stockpile;
     }
 
     public void ViewStockpile(){
 
-        OnStockViewChange?.Invoke(this, new OnViewEventArgs{
-            stockpile = stockpileXml
-            });
-        Debug.Log(stockpileXml.Id);
+        //OnStockViewChange?.Invoke(this, new OnViewEventArgs{
+        //    stockpile = stockpileXml
+        //    });
+        //Debug.Log(stockpileXml.Id);
+
+        OnViewChange?.Invoke(this, stockpileData.Id);
 
     }
     

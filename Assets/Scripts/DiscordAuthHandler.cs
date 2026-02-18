@@ -10,81 +10,89 @@ using VoltstroStudios.UnityWebBrowser.Core;
 using FoxholeTools.Utils;
 using MongoDB.Bson;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
+using UnityEngine.Video;
+using UnityEngine.Events;
 
 public class DiscordAuthHandler : MonoBehaviour
 {
-
-    private string discordClientId = Helper.discordClientID;
-    private string redirectUri = Helper.discordRedrectURI;
-    private string discordOAuthUrl = "https://discord.com/oauth2/authorize";
-
-    [SerializeField]
-    private Canvas webCanvas;
-    [SerializeField]
-    private BaseUwbClientManager clientManager;
-    [SerializeField]
-    private TMP_InputField urlField;
-
-    private WebBrowserClient webBrowserClient;
-
+    public UnityEvent<UserModel> OnAuth;
     public static event EventHandler<AuthEventArgs> OnAuthComplete;
     public class AuthEventArgs : EventArgs
     {
         public UserModel userModel;
     }
 
+    private class AuthStartDto
+    {
+        public string sessionId;
+        public string url;
+    }
+
+    private class AuthSatausDto
+    {
+        public bool completed;
+        public UserModel user;
+    }
+
+    private string _sessionId;
+
     private void Start()
     {
-        webBrowserClient = clientManager.browserClient;
-        webCanvas.sortingOrder = 0;
-        webCanvas.gameObject.SetActive(false);
-    }
-
-    public void StartOAuthFlow()
-    {
-        string authUrl = $"{discordOAuthUrl}?client_id={discordClientId}&redirect_uri={redirectUri}&response_type=code&scope=identify%20guilds%20guilds.members.read";
-        webCanvas.gameObject.SetActive(true);
-        webCanvas.sortingOrder = 1;
-        webBrowserClient.LoadUrl(authUrl);
-
-        StartCoroutine(HandleCallback());
-    }
-
-    private void RequestUserData(string code)
-    {
-        UserModel returnedUserModel;
-        string url = $"{Helper.apiHost+Helper.apiPort}/discord-login/{code}";
-        WebRequests.Get(url, (data) => { }, (data) =>
-        {
-            returnedUserModel = Helper.GetObjectFromData<UserModel>(data);
-            Debug.Log($"{returnedUserModel.discordId},{returnedUserModel.username},{returnedUserModel.rank}");
-            OnAuthComplete?.Invoke(this, new AuthEventArgs
-            {
-                userModel = returnedUserModel
-            });
-        });
         
     }
 
-    private IEnumerator HandleCallback()
+    public void LoginBtnDown()
     {
-        while (!urlField.text.StartsWith(Helper.discordRedrectURI))
-        {
-            yield return null;
-        }
+        StartCoroutine(StartOAuthFlow());
+    }
 
-        string[] urlParts = urlField.text.Split('=');
-        if(urlParts.Length == 2 )
+    public IEnumerator StartOAuthFlow()
+    {
+        var req = UnityWebRequest.Get(Helper.discordRedrectURI);
+
+        yield return req.SendWebRequest();
+
+        var data = JsonUtility.FromJson<AuthStartDto>(req.downloadHandler.text);
+
+        _sessionId = data.sessionId;
+        Debug.Log(_sessionId);
+        Application.OpenURL(data.url);
+
+        StartCoroutine(PollAuth());
+    }
+
+    public IEnumerator PollAuth()
+    {
+        while (true)
         {
-            string userCode = urlParts[1];
-            Debug.Log(userCode);
-            RequestUserData(userCode);
-            webCanvas.gameObject.SetActive(false);
-        } else
-        {
-            Debug.Log("Failed to retrieve user access code");
-            webCanvas.gameObject.SetActive(false);        
+            var req = UnityWebRequest.Get(
+                $"https://localhost:7253/discord-login/status?sessionId={_sessionId}"
+                );
+
+            yield return req.SendWebRequest();
+
+            var status = JsonUtility.FromJson<AuthSatausDto>(
+                req.downloadHandler.text
+                );
+
+            if (status.completed)
+            {
+                Debug.Log(status.user.ToJson());
+                OnAuthComplete(this, new AuthEventArgs() { userModel = status.user });
+                OnAuth?.Invoke(status.user);
+                yield break;
+            }
+
+            yield return new WaitForSeconds(1.0f);
         }
+    }
+
+    private void HandleToken(string jwt)
+    {
+        UnityEngine.Debug.Log($"Handle Token Called, JWT Received: {jwt}");
+
+        //PlayerPrefs.SetString("auth_token", jwt);
     }
 
 }

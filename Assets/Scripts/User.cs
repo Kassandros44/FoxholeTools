@@ -6,6 +6,13 @@ using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 using System;
+using MongoDB.Bson;
+using UnityEngine.Events;
+
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class User : MonoBehaviour
 {
@@ -21,9 +28,21 @@ public class User : MonoBehaviour
 
     public DataManager dataManager;
 
+    #region User Data
+
+    private UserModel _runtimeUser;
+
+    public UserModel UserModel => _runtimeUser;
+
+    public UnityEvent UserModelChanged;
+
+    #endregion
+
     private void Start() {
 
         //if(isLocalPlayer){
+
+        _runtimeUser = new UserModel();
 
         uIManager = GameObject.Find("AppUICanvas").GetComponent<UIManager>();
         mapUIManager = GameObject.Find("MapContainer").GetComponent<MapUIManager>();
@@ -50,6 +69,14 @@ public class User : MonoBehaviour
     private void OnDiscordAuth(object sender, DiscordAuthHandler.AuthEventArgs e)
     {
         LocalUser.SetLocalUsername(e.userModel.username);
+        LocalUser.SetLocalUserData(e.userModel);
+    }
+
+    public void UpdateUserData(UserModel newData)
+    {
+        _runtimeUser.CopyFrom(newData);
+        UserModelChanged?.Invoke();
+        Debug.Log(UserModel.globalName);
     }
 
     //[Server]

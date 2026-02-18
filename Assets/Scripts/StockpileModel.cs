@@ -30,6 +30,25 @@ public class StockpileModel {
     [XmlArray("Logs"), XmlArrayItem("Log")]
     public List<Log> logs = new List<Log>();
 
+    [Serializable]
+    public struct simpleData
+    {
+        public string Id;
+        public string name;
+        public string region;
+        public string location;
+        public string passcode;
+
+        public simpleData(JObject data)
+        {
+            Id = (string)data["id"];
+            name = (string)data["name"];
+            region = (string)data["region"];
+            location = (string)data["location"];
+            passcode = (string)data["passcode"];
+        }
+    }
+
     public StockpileModel(){}
 
     public StockpileModel(JObject jobject){

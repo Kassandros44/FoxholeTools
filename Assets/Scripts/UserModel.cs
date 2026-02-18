@@ -3,6 +3,7 @@ using System;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 
+
 [Serializable]
 public class UserModel {
 
@@ -10,8 +11,12 @@ public class UserModel {
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id;
     public string discordId;
+    public string avatar;
     public string username;
     public string globalName;
+#nullable enable
+    public string? guildName;
+#nullable disable
     public string rank;
 
     public UserModel(){}
@@ -26,6 +31,10 @@ public class UserModel {
         {
             discordId = (string)jobject["discordId"];
         }
+        if (jobject.ContainsKey("avatar"))
+        {
+            avatar = (string)jobject["avatar"];
+        }
         if (jobject.ContainsKey("username"))
         {
             username = (string)jobject["username"];
@@ -39,6 +48,17 @@ public class UserModel {
             rank = (string)jobject["rank"];
         }
 
+    }
+
+    public void CopyFrom(UserModel other)
+    {
+        Id = other.Id;
+        discordId = other.discordId;
+        avatar = other.avatar;
+        username = other.username;
+        globalName = other.globalName;
+        guildName = other.guildName;
+        rank = other.rank;
     }
 
 }

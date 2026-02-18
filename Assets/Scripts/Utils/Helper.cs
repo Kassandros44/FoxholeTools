@@ -26,6 +26,7 @@ public static class Helper{
         string filePath = Path.Combine(root, ".env");
 
         if(!File.Exists(filePath)){
+            Debug.Log($"FILE NOT FOUND:::{filePath}");
             return;
         }
         foreach(var line in File.ReadAllLines(filePath)){
@@ -81,6 +82,24 @@ public static class Helper{
         List<T> list = new List<T>();
         JArray jArray = JArray.Parse(data);
         foreach(var i in jArray){
+            JObject jObject = JObject.Parse(i.ToString());
+            T newObject = createdActivator(jObject);
+            //T newObject = (T)Activator.CreateInstance(typeof(T), jObject);
+            list.Add(newObject);
+        }
+        return list;
+    }
+
+    public static List<T> GetListFromStruct<T>(string data) where T : struct
+    {
+
+        ConstructorInfo ctor = typeof(T).GetConstructor(new[] { typeof(JObject) });
+        ObjectActivator<T> createdActivator = GetActivator<T>(ctor);
+
+        List<T> list = new List<T>();
+        JArray jArray = JArray.Parse(data);
+        foreach (var i in jArray)
+        {
             JObject jObject = JObject.Parse(i.ToString());
             T newObject = createdActivator(jObject);
             //T newObject = (T)Activator.CreateInstance(typeof(T), jObject);

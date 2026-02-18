@@ -424,6 +424,12 @@ MonoBehaviour:
     name: 
     location: 
     passcode: 
+  stockpileData:
+    Id: 
+    name: 
+    region: 
+    location: 
+    passcode: 
 --- !u!1 &6230010779557077566
 GameObject:
   m_ObjectHideFlags: 0

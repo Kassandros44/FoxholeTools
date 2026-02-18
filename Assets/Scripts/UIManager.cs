@@ -10,6 +10,7 @@ using Mirror;
 using TMPro;
 using Newtonsoft.Json.Linq;
 using FoxholeTools.Utils;
+using MongoDB.Bson;
 
 public class UIManager : MonoBehaviour {
 
@@ -93,7 +94,7 @@ public class UIManager : MonoBehaviour {
         Tooltip.HideTooltip_Static();
 
         CrateInteractWindow.OnSubmit += (object sender, CrateInteractWindow.OnSubmitEventArgs e) => {UpdateStockpileContent(e.stockpile);};
-        TickTimerSystem.OnTick_5 += (object sender, TickTimerSystem.OnTickEventArgs e) => {UpdateStockpileList();};
+        //TickTimerSystem.OnTick_5 += (object sender, TickTimerSystem.OnTickEventArgs e) => {UpdateStockpileList();};
         StockpileListItem.OnStockViewChange += (object sender, StockpileListItem.OnViewEventArgs e) => {
             UpdateStockpileContent(e.stockpile);
             currentlyViewedStockpile = e.stockpile;
@@ -109,8 +110,17 @@ public class UIManager : MonoBehaviour {
 
     private void OnDiscordAuth(object sender, DiscordAuthHandler.AuthEventArgs e)
     {
+        loginScreen.SetActive(false);
         usernameField.text = e.userModel.username;
-        usernameText.text = e.userModel.username;
+        Debug.Log(e.userModel.ToJson());
+        if (e.userModel.guildName == "")
+        {
+            usernameText.text = e.userModel.globalName;
+        }
+        else
+        {
+            usernameText.text = e.userModel.guildName;
+        }
     }
 
     private void Update() {
@@ -129,6 +139,7 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    //Refactor - In Progress
     void UpdateStockpileList(){
         
         string url = $"{Helper.apiHost+Helper.apiPort}/stockpiles";
@@ -160,6 +171,7 @@ public class UIManager : MonoBehaviour {
         }); 
     }
 
+    //Refactor - In Progress
     public void UpdateStockpileContent(StockpileModel stockpile){
         
         Debug.Log(stockpile.name);
@@ -173,6 +185,8 @@ public class UIManager : MonoBehaviour {
 
     }
 
+
+    //Reafactor - Done
     public void ChangeTab(int tab){
 
         currentTab = tabContent.GetChild(tab);
@@ -199,6 +213,7 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    //Refactor - Pending - needs new UI
     public void ShowMap(){
 
         tabContent.gameObject.SetActive(false);
@@ -207,17 +222,20 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    //Refactor - In Progress
     public void OnDelStkBtnClicked(){
         GameObject window = Instantiate(stockDltWindow, this.transform);
         window.GetComponent<StockDltWindow>().stockpile = currentlyViewedStockpile;
     }
 
+    //Refactor - In Progress
     public void CreateAddStockpileWindow(){
 
         GameObject window = Instantiate(addStockpileWindow, this.transform);
 
     }
 
+    //Refactor - In Progress
     public void CrateItemInteractWindow(int index){
 
         GameObject window = Instantiate(itemInteractWindow, this.transform);
@@ -226,6 +244,7 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    //Refactor - In Progress
     public void CreateStockpileLogWindow(){
 
         GameObject window = Instantiate(stockpileLogWindow, this.transform);
@@ -233,6 +252,7 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    //Refactor - Partial Progess
     public GameObject CreateMapMarkerWindow(MapMarkerInfo data){
 
         GameObject window;
@@ -254,6 +274,7 @@ public class UIManager : MonoBehaviour {
 
     }
 
+    //Refactor - Partial Progress
     public GameObject CreateMapMarkerWindow(Vector2 vec){
 
         GameObject window;
@@ -403,7 +424,6 @@ public class UIManagerEditor : Editor {
 
         m_NetworkManagerProp = serializedObject.FindProperty("manager");
         m_TabContentProp = serializedObject.FindProperty("tabContent");
-        m_LocalUsernameProp = serializedObject.FindProperty("username");
         m_IsUIOverrideProp = serializedObject.FindProperty("isUIOverride");
 
         //Tabs
@@ -505,7 +525,6 @@ public class UIManagerEditor : Editor {
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
 
-        EditorGUILayout.PropertyField(m_LocalUsernameProp, new GUIContent("Local Client Username"));
         EditorGUILayout.PropertyField(m_IsUIOverrideProp, new GUIContent("UI Override Boolean"));
         serializedObject.ApplyModifiedProperties();
 
