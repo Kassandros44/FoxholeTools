@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using Mirror;
+using UnityEngine.Events;
 
 public class StockpileListItem : MonoBehaviour {
 
@@ -21,6 +22,7 @@ public class StockpileListItem : MonoBehaviour {
 
     [SerializeField]
     private StockpileModel.simpleData stockpileData;
+    public StockpileModel.simpleData StockpileData { get {  return stockpileData; }  }
 
 
     private void Awake()

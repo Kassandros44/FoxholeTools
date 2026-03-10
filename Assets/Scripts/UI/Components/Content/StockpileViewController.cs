@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StockpileViewController : MonoBehaviour
 {
-    
-    public void UpdateStockpileView(List<Crate> crates)
+
+    [SerializeField]
+    private TMP_Text titleText;
+    [SerializeField]
+    private Transform contentTransform;
+
+    public void UpdateStockpileView(StockpileData.ViewArgs args)
     {
-        for (int i = 0; i < crates.Count; i++)
+
+        titleText.text = args.args2;
+
+        for (int i = 0; i < args.args1.Count; i++)
         {
 
-            transform.GetChild(i).Find("AmountTxt").GetComponent<Text>().text = crates[i].amount.ToString();
-            transform.GetChild(i).Find("QuotaTxt").GetComponent<Text>().text = crates[i].quota.ToString();
+            contentTransform.GetChild(i).Find("AmountTxt").GetComponent<Text>().text = args.args1[i].amount.ToString();
+            contentTransform.GetChild(i).Find("QuotaTxt").GetComponent<Text>().text = args.args1[i].quota.ToString();
 
         }
     }
