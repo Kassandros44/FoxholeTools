@@ -1,17 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
 
-public class M_Server : NetworkBehaviour {
+public class M_Server : MonoBehaviour {
 
     [SerializeField]
     private DataManager dataManager = new DataManager();
     
-    [Server]
+    //[Server]
     private void Start() {
         
         if(File.Exists(Path.Combine(Application.persistentDataPath, "serverdata.xml"))){

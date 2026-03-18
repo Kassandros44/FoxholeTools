@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using System.Xml;
 using System.Xml.Serialization;
 using System.IO;
@@ -20,9 +19,6 @@ public class User : MonoBehaviour
     [SerializeField]
     public UIManager uIManager;
     public MapUIManager mapUIManager;
-
-    [SerializeField]
-    private NetworkManager networkManager;
 
     public StockpileModel currentlyViewedStockpile;
 

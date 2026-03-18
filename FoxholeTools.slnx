@@ -1,0 +1,10 @@
+﻿<Solution>
+  <Project Path="gpm_common.csproj" />
+  <Project Path="gpm_webview.csproj" />
+  <Project Path="gpm_manager.csproj" />
+  <Project Path="gpm_communicator.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="ParrelSync.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
+</Solution>
