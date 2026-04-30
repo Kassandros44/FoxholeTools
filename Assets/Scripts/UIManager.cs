@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Mirror;
 using TMPro;
 using Newtonsoft.Json.Linq;
 using FoxholeTools.Utils;
@@ -33,9 +32,6 @@ public class UIManager : MonoBehaviour {
 
     [SerializeField]
     private GameObject loginScreen;
-
-    [SerializeField]
-    private NetworkManager manager;
 
     [SerializeField]
     public TMP_InputField usernameField;
@@ -124,16 +120,6 @@ public class UIManager : MonoBehaviour {
     }
 
     private void Update() {
-
-        if(!NetworkClient.isConnected){
-
-            connectionText.text = "Diconnected";
-
-        } else {
-
-            connectionText.text = "Connected";
-
-        }
 
         isUIOverride = EventSystem.current.IsPointerOverGameObject();
 

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-using Mirror;
 using System;
 
-public class CrateInteractWindow : NetworkBehaviour {
+public class CrateInteractWindow : MonoBehaviour {
 
     [SerializeField]
     private Dropdown dropdown;

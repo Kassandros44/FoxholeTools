@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Mirror;
 using System.IO;
 
-public class StockpileWindow : NetworkBehaviour {
+public class StockpileWindow : MonoBehaviour {
 
     [SerializeField]
     private InputField nameField;

@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 using UnityEngine.UI;
 
-public class StockpileLogWindow : NetworkBehaviour {
+public class StockpileLogWindow : MonoBehaviour {
 
     //NOTE: REFACTOR THIS
 

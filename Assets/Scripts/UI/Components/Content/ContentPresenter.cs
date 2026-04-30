@@ -17,7 +17,7 @@ public class ContentPresenter : MonoBehaviour
     public void DisplayContent(List<StockpileModel.simpleData> contentData)
     {
 
-        List<StockpileModel.simpleData> currentData = transform.GetComponentsInChildren<StockpileListItem>().;
+        
 
         for (int i = 0; i < transform.childCount; i++)
         {
