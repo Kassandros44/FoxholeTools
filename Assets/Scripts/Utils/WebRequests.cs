@@ -24,6 +24,38 @@ namespace FoxholeTools.Utils{
             webRequestsMonoBehaviour.StartCoroutine(GetRequestEnumerator(url, onError, onReceived));
         }
 
+        public static void GetWithHeaders(string url, Dictionary<string, string> headers, Action<string> onError, Action<string> onReceived)
+        {
+            Init();
+            webRequestsMonoBehaviour.StartCoroutine(GetRequestWithHeadersEnumerator(url, headers, onError, onReceived));
+        }
+
+        private static IEnumerator GetRequestWithHeadersEnumerator(string url, Dictionary<string, string> headers, Action<string> onError, Action<string> onReceived)
+        {
+
+            Debug.Log($"URL: {url}");
+
+            using (UnityWebRequest request = UnityWebRequest.Get(url))
+            {
+                foreach (var item in headers)
+                {
+                    request.SetRequestHeader(item.Key, item.Value);
+                }
+
+                Debug.Log($"Request header: {request.GetRequestHeader("Current-Stockpiles")}");
+
+                yield return request.SendWebRequest();
+                if(request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+                {
+                    Debug.Log($"Error: {request.error} : {url} : {headers.ToString()}");
+                }
+                else
+                {
+                    onReceived?.Invoke(request.downloadHandler.text);
+                }
+            }
+        }
+
         private static IEnumerator GetRequestEnumerator(string url, Action<string> onError, Action<string> onReceived){
             using (UnityWebRequest webRequest = UnityWebRequest.Get(url)){
                 yield return webRequest.SendWebRequest();

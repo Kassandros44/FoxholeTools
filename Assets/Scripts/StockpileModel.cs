@@ -31,7 +31,7 @@ public class StockpileModel {
     public List<Log> logs = new List<Log>();
 
     [Serializable]
-    public struct simpleData
+    public struct idenityData
     {
         public string Id;
         public string name;
@@ -39,7 +39,7 @@ public class StockpileModel {
         public string location;
         public string passcode;
 
-        public simpleData(JObject data)
+        public idenityData(JObject data)
         {
             Id = (string)data["id"];
             name = (string)data["name"];

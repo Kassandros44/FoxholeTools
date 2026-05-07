@@ -12,16 +12,16 @@ public class StockpileViewController : MonoBehaviour
     [SerializeField]
     private Transform contentTransform;
 
-    public void UpdateStockpileView(StockpileData.ViewArgs args)
+    public void UpdateStockpileView(List<Crate> crates, string name)
     {
 
-        titleText.text = args.args2;
+        titleText.text = name;
 
-        for (int i = 0; i < args.args1.Count; i++)
+        for (int i = 0; i < crates.Count; i++)
         {
 
-            contentTransform.GetChild(i).Find("AmountTxt").GetComponent<Text>().text = args.args1[i].amount.ToString();
-            contentTransform.GetChild(i).Find("QuotaTxt").GetComponent<Text>().text = args.args1[i].quota.ToString();
+            contentTransform.GetChild(i).Find("AmountTxt").GetComponent<Text>().text = crates[i].amount.ToString();
+            contentTransform.GetChild(i).Find("QuotaTxt").GetComponent<Text>().text = crates[i].quota.ToString();
 
         }
     }

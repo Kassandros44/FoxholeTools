@@ -1,11 +1,11 @@
 [Licensing::Module] Trying to connect to existing licensing client channel...
 Built from '6000.3/staging' branch; Version is '6000.3.11f1 (3000ef702840) revision 3145967'; Using compiler version '194234433'; Build Type 'Release'
 OS: 'Windows 11  (10.0.26200) Core' Language: 'en' Physical Memory: 32538 MB
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-ivory" at "2026-04-30T05:20:20.7677945Z"
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
 System  architecture: x64
 Process architecture: x64
-Date: 2026-05-05T02:19:15Z
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-ivory" at "2026-05-05T02:19:15.1688159Z"
+Date: 2026-04-30T05:20:20Z
 [Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 66480, path: "E:/UnityHub/Unity Hub/UnityLicensingClient_V1/Unity.Licensing.Client.exe")
 [Licensing::Module] LicensingClient has failed validation; ignoring
 [Licensing::Client] Error: HandshakeResponse reported an error:
@@ -13,16 +13,16 @@ Date: 2026-05-05T02:19:15Z
 	ResponseStatus: Unsupported protocol version '1.18.0'.
 [Licensing::Module] Error: Failed to handshake to channel: "LicenseClient-ivory"
 [Licensing::IpcConnector] LicenseClient-ivory channel disconnected successfully.
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-ivory-6000.3.11" at "2026-05-05T02:19:15.2358008Z"
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-ivory-6000.3.11" at "2026-04-30T05:20:20.7974327Z"
 [Licensing::Client] Handshaking with LicensingClient:
   Version:                 1.18.0+23225a6
-  Session Id:              fee584070a9b4e6dbae1375116a6c088
-  Correlation Id:          fd3edea58da0440915b39730761ff57b
-  External correlation Id: 3660400920005682668
+  Session Id:              55a2653a09a94d76ac38aca8ae9ec327
+  Correlation Id:          d6b29dba4e3f78c67925402f525b7dde
+  External correlation Id: 7839748759422306238
   Machine Id:              Nm+8g8ErDB6bypNONDJHEaAORQI=
-[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-ivory-6000.3.11" (connect: 0.00s, validation: 0.00s, handshake: 0.09s)
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-ivory-6000.3.11-notifications" at "2026-05-05T02:19:15.3268582Z"
-[Licensing::Module] Licensing Background thread has ended after 0.22s
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-ivory-6000.3.11" (connect: 0.00s, validation: 0.00s, handshake: 0.10s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-ivory-6000.3.11-notifications" at "2026-04-30T05:20:20.8959663Z"
+[Licensing::Module] Licensing Background thread has ended after 0.13s
 
 COMMAND LINE ARGUMENTS:
 E:\Unity\Hub\Editor\6000.3.11f1\Editor\Unity.exe
@@ -30,13 +30,13 @@ E:\Unity\Hub\Editor\6000.3.11f1\Editor\Unity.exe
 -batchMode
 -noUpm
 -name
-AssetImportWorker5
+AssetImportWorker1
 -projectPath
 E:/Unity/Projects/FoxholeTools
 -logFile
-Logs/AssetImportWorker5.log
+Logs/AssetImportWorker1.log
 -srvPort
-59678
+60398
 -licensingIpc
 LicenseClient-ivory
 -job-worker-count
@@ -84,12 +84,12 @@ E:/Unity/Projects/FoxholeTools
     "memorysetup-job-temp-allocator-block-size-background=1048576"
     "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
     "memorysetup-temp-allocator-size-cloud-worker=32768"
-Player connection [38824]  Target information:
+Player connection [9556]  Target information:
 
-Player connection [38824]  * "[IP] 192.168.0.125 [Port] 0 [Flags] 2 [Guid] 354852373 [EditorId] 354852373 [Version] 1048832 [Id] WindowsEditor(7,TheBlackBox) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [9556]  * "[IP] 192.168.0.125 [Port] 0 [Flags] 2 [Guid] 381711192 [EditorId] 381711192 [Version] 1048832 [Id] WindowsEditor(7,TheBlackBox) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [38824] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [38824] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [9556] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [9556] Host joined alternative multi-casting on [225.0.0.222:34997]...
 JobSystem: Creating JobQueue using job-worker-count value 11
 Input System module state changed to: Initialized.
 [Physics::Module] Initialized fallback backend.
@@ -101,7 +101,7 @@ Library Redirect Path: Library/
 [Physics::Module] SDK Version: 4.1.2
 [Physics::Module] Integration Version: 1.0.0
 [Physics::Module] Threading Mode: Multi-Threaded
-Refreshing native plugins compatible for Editor in 9.96 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 4.09 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 6000.3.11f1 (3000ef702840)
 [Subsystems] Discovering subsystems at path E:/Unity/Hub/Editor/6000.3.11f1/Editor/Data/Resources/UnitySubsystems
@@ -117,7 +117,7 @@ Initialize mono
 Mono path[0] = 'E:/Unity/Hub/Editor/6000.3.11f1/Editor/Data/Managed'
 Mono path[1] = 'E:/Unity/Hub/Editor/6000.3.11f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'E:/Unity/Hub/Editor/6000.3.11f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56072
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56908
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: E:/Unity/Hub/Editor/6000.3.11f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
@@ -133,8 +133,8 @@ Register platform support module: E:/Unity/Hub/Editor/6000.3.11f1/Editor/Data/Pl
   Type: Assigned
   Expiration: Unlimited
 Register platform support module: E:/Unity/Hub/Editor/6000.3.11f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
-Registered in 0.008336 seconds.
-- Loaded All Assemblies, in  0.654 seconds
+Registered in 0.004800 seconds.
+- Loaded All Assemblies, in  0.394 seconds
 Native extension for Android target not found
 Native extension for WindowsStandalone target not found
 Package Manager log level set to [2]
@@ -143,35 +143,35 @@ Package Manager log level set to [2]
 [Package Manager] Cannot connect to Unity Package Manager local server
 ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.308 seconds
-Domain Reload Profiling: 956ms
-	BeginReloadAssembly (344ms)
+- Finished resetting the current domain, in  0.278 seconds
+Domain Reload Profiling: 671ms
+	BeginReloadAssembly (171ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (0ms)
-	RebuildCommonClasses (37ms)
+		CreateAndSetChildDomain (1ms)
+	RebuildCommonClasses (27ms)
 	RebuildNativeTypeToScriptingClass (9ms)
-	initialDomainReloadingComplete (76ms)
-	LoadAllAssembliesAndSetupDomain (182ms)
-		LoadAssemblies (334ms)
+	initialDomainReloadingComplete (44ms)
+	LoadAllAssembliesAndSetupDomain (141ms)
+		LoadAssemblies (170ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (179ms)
-			TypeCache.Refresh (177ms)
-				TypeCache.ScanAssembly (164ms)
+		AnalyzeDomain (138ms)
+			TypeCache.Refresh (137ms)
+				TypeCache.ScanAssembly (126ms)
 			BuildScriptInfoCaches (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (309ms)
+	FinalizeReload (278ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (283ms)
+		SetupLoadedEditorAssemblies (254ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (51ms)
+			InitializePlatformSupportModulesInManaged (46ms)
 			SetLoadedEditorAssemblies (3ms)
-			BeforeProcessingInitializeOnLoad (64ms)
-			ProcessInitializeOnLoadAttributes (104ms)
-			ProcessInitializeOnLoadMethodAttributes (62ms)
+			BeforeProcessingInitializeOnLoad (55ms)
+			ProcessInitializeOnLoadAttributes (93ms)
+			ProcessInitializeOnLoadMethodAttributes (57ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -192,8 +192,8 @@ Begin MonoManager ReloadAssembly
   Type: Assigned
   Expiration: Unlimited
 Symbol file LoadedFromMemory is not a mono symbol file
-- Loaded All Assemblies, in  1.217 seconds
-Refreshing native plugins compatible for Editor in 5.21 ms, found 4 plugins.
+- Loaded All Assemblies, in  0.698 seconds
+Refreshing native plugins compatible for Editor in 1.79 ms, found 4 plugins.
 Native extension for Android target not found
 Native extension for WindowsStandalone target not found
 [Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
@@ -223,96 +223,52 @@ UnityEditor.EditorAssemblies:ProcessInitializeOnLoadAttributes (System.Type[])
 
 ScheduleIndexationOnStartup MainProcess:False IndexOnStartup:True
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.931 seconds
-Domain Reload Profiling: 2144ms
-	BeginReloadAssembly (293ms)
+- Finished resetting the current domain, in  0.817 seconds
+Domain Reload Profiling: 1513ms
+	BeginReloadAssembly (188ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (4ms)
+		DisableScriptedObjects (5ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (22ms)
-	RebuildCommonClasses (45ms)
+		CreateAndSetChildDomain (18ms)
+	RebuildCommonClasses (26ms)
 	RebuildNativeTypeToScriptingClass (9ms)
-	initialDomainReloadingComplete (85ms)
-	LoadAllAssembliesAndSetupDomain (780ms)
-		LoadAssemblies (753ms)
+	initialDomainReloadingComplete (33ms)
+	LoadAllAssembliesAndSetupDomain (440ms)
+		LoadAssemblies (385ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (250ms)
-			TypeCache.Refresh (205ms)
-				TypeCache.ScanAssembly (188ms)
-			BuildScriptInfoCaches (37ms)
-			ResolveRequiredComponents (5ms)
-	FinalizeReload (931ms)
+		AnalyzeDomain (185ms)
+			TypeCache.Refresh (145ms)
+				TypeCache.ScanAssembly (131ms)
+			BuildScriptInfoCaches (34ms)
+			ResolveRequiredComponents (4ms)
+	FinalizeReload (818ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (848ms)
+		SetupLoadedEditorAssemblies (734ms)
 			LogAssemblyErrors (0ms)
 			InitializePlatformSupportModulesInManaged (8ms)
-			SetLoadedEditorAssemblies (4ms)
-			BeforeProcessingInitializeOnLoad (126ms)
-			ProcessInitializeOnLoadAttributes (658ms)
-			ProcessInitializeOnLoadMethodAttributes (44ms)
+			SetLoadedEditorAssemblies (3ms)
+			BeforeProcessingInitializeOnLoad (110ms)
+			ProcessInitializeOnLoadAttributes (567ms)
+			ProcessInitializeOnLoadMethodAttributes (38ms)
 			AfterProcessingInitializeOnLoad (8ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (4ms)
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.01 seconds
-Refreshing native plugins compatible for Editor in 12.38 ms, found 4 plugins.
+Refreshing native plugins compatible for Editor in 3.95 ms, found 4 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 5123 unused Assets / (1.8 MB). Loaded Objects now: 5709.
-Memory consumption went from 106.2 MB to 104.4 MB.
-Total: 20.989100 ms (FindLiveObjects: 0.929700 ms CreateObjectMapping: 0.569600 ms MarkObjects: 17.558500 ms  DeleteObjects: 1.929500 ms)
+Unloading 5123 unused Assets / (1.7 MB). Loaded Objects now: 5709.
+Memory consumption went from 108.2 MB to 106.4 MB.
+Total: 16.191000 ms (FindLiveObjects: 0.448000 ms CreateObjectMapping: 0.547500 ms MarkObjects: 13.905200 ms  DeleteObjects: 1.288900 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 1731429.694700 seconds.
-  path: Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader
-  artifactKey: Guid(c8d12adcee749c344b8117cf7c7eb912) Importer(2089858483,797179f86c6e516b54ff30bda720a719)
-Start importing Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader using Guid(c8d12adcee749c344b8117cf7c7eb912) Importer(2089858483,797179f86c6e516b54ff30bda720a719) (ScriptedImporter) -> (artifact id: 'ca92efd3cd4d4e181f4b5f3d33e0aba3') in 0.1593125 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+  Time since last request: 1310302.470731 seconds.
+  path: Assets/Scripts/Utils/WebRequests.cs
+  artifactKey: Guid(655920761d07f9848a8ccd4edb431290) Importer(2089858483,797179f86c6e516b54ff30bda720a719)
+Start importing Assets/Scripts/Utils/WebRequests.cs using Guid(655920761d07f9848a8ccd4edb431290) Importer(2089858483,797179f86c6e516b54ff30bda720a719) (ScriptedImporter) -> (artifact id: '213fb1f03054bad3748104de09acf840') in 0.0971176 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
 
-========================================================================
-Received Import Request.
-  Time since last request: 0.000016 seconds.
-  path: Assets/MapToolPack/TextMesh Pro/Resources/TMP Settings.asset
-  artifactKey: Guid(fabd03d0a898139479cb0cd33259e9cb) Importer(2089858483,797179f86c6e516b54ff30bda720a719)
-Start importing Assets/MapToolPack/TextMesh Pro/Resources/TMP Settings.asset using Guid(fabd03d0a898139479cb0cd33259e9cb) Importer(2089858483,797179f86c6e516b54ff30bda720a719) (ScriptedImporter) -> (artifact id: '3eb05b3d9aec364ee9e896f70cc910db') in 0.0429399 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000029 seconds.
-  path: Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset
-  artifactKey: Guid(2e498d1c8094910479dc3e1b768306a4) Importer(2089858483,797179f86c6e516b54ff30bda720a719)
-Start importing Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset using Guid(2e498d1c8094910479dc3e1b768306a4) Importer(2089858483,797179f86c6e516b54ff30bda720a719) (ScriptedImporter) -> (artifact id: 'c84c24c364cc8da9377d360b0082f583') in 0.0270014 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 3
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000025 seconds.
-  path: Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader
-  artifactKey: Guid(48bb5f55d8670e349b6e614913f9d910) Importer(2089858483,797179f86c6e516b54ff30bda720a719)
-Start importing Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader using Guid(48bb5f55d8670e349b6e614913f9d910) Importer(2089858483,797179f86c6e516b54ff30bda720a719) (ScriptedImporter) -> (artifact id: 'fbaa236be650e2c146e2e26803885e6e') in 0.0166146 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000017 seconds.
-  path: Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc
-  artifactKey: Guid(c334973cef89a9840b0b0c507e0377ab) Importer(2089858483,797179f86c6e516b54ff30bda720a719)
-Start importing Assets/TextMesh Pro/Shaders/TMPro_Mobile.cginc using Guid(c334973cef89a9840b0b0c507e0377ab) Importer(2089858483,797179f86c6e516b54ff30bda720a719) (ScriptedImporter) -> (artifact id: '52f3c369d6e237535c0ec447b2c40244') in 0.0168058 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000016 seconds.
-  path: Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader
-  artifactKey: Guid(128e987d567d4e2c824d754223b3f3b0) Importer(2089858483,797179f86c6e516b54ff30bda720a719)
-Start importing Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader using Guid(128e987d567d4e2c824d754223b3f3b0) Importer(2089858483,797179f86c6e516b54ff30bda720a719) (ScriptedImporter) -> (artifact id: 'aa48d66f13bbe9f024d307fde66c9aee') in 0.0152608 seconds
-Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
-
-Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
-AssetImportWorker is now disconnected from the server
-Process exiting
-Exiting without the bug reporter. Application will terminate with return code 0

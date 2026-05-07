@@ -20,8 +20,8 @@ public class StockpileListItem : MonoBehaviour {
     private ContentPresenter presenter;
 
     [SerializeField]
-    private StockpileModel.simpleData stockpileData;
-    public StockpileModel.simpleData StockpileData { get {  return stockpileData; }  }
+    private StockpileModel.idenityData stockpileData;
+    public StockpileModel.idenityData StockpileData { get {  return stockpileData; }  }
 
 
     private void Awake()
@@ -36,7 +36,7 @@ public class StockpileListItem : MonoBehaviour {
 
     }
 
-    private void DrawUI(StockpileModel.simpleData data)
+    private void DrawUI(StockpileModel.idenityData data)
     {
         nameText.text = data.name;
         locationText.text = data.location;
@@ -58,7 +58,8 @@ public class StockpileListItem : MonoBehaviour {
     }
 
     public static event EventHandler<OnViewEventArgs> OnStockViewChange;
-    public static event EventHandler<string> OnViewChange;
+    public static event EventHandler<StockpileModel.idenityData> OnViewChange;
+
     public class OnViewEventArgs : EventArgs{
         public StockpileModel stockpile;
     }
@@ -70,7 +71,7 @@ public class StockpileListItem : MonoBehaviour {
         //    });
         //Debug.Log(stockpileXml.Id);
 
-        OnViewChange?.Invoke(this, stockpileData.Id);
+        OnViewChange?.Invoke(this, stockpileData);
 
     }
     

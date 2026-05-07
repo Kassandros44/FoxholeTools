@@ -11,6 +11,7 @@ public class TickTimerSystem : MonoBehaviour
     }
     public static event EventHandler<OnTickEventArgs> OnTick;
     public static event EventHandler<OnTickEventArgs> OnTick_5;
+    public static event EventHandler<OnTickEventArgs> OnTick_60;
 
     private const float TICK_TIMER_MAX = .2f;
 
@@ -28,8 +29,13 @@ public class TickTimerSystem : MonoBehaviour
             tick++;
             OnTick?.Invoke(this, new OnTickEventArgs{tick = tick});
 
-            if(tick % 5 == 0){
+            if(tick % 5 == 0)
+            {
                 OnTick_5?.Invoke(this, new OnTickEventArgs{tick = tick});
+            }
+            if (tick % 60 == 0)
+            {
+                OnTick_60?.Invoke(this, new OnTickEventArgs{ tick = tick});
             }
         }
     }

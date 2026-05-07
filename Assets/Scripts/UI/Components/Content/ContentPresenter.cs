@@ -10,14 +10,12 @@ public class ContentPresenter : MonoBehaviour
     [SerializeField]
     private GameObject contentPrefab;
 
-    public UnityEvent<StockpileModel.simpleData> OnContentDrawn;
+    public UnityEvent<StockpileModel.idenityData> OnContentDrawn;
 
 
     //May need another list to make this work.
-    public void DisplayContent(List<StockpileModel.simpleData> contentData)
+    public void DisplayContent(List<StockpileModel.idenityData> contentData)
     {
-
-        
 
         for (int i = 0; i < transform.childCount; i++)
         {
@@ -37,6 +35,27 @@ public class ContentPresenter : MonoBehaviour
             OnContentDrawn?.Invoke(data);
             
             Debug.Log("Displayed");
+        });
+    }
+
+    public void DisplayContent(List<StockpileModel.idenityData> added, List<string> removed)
+    {
+        added.ForEach(data =>
+        {
+            GameObject contentObject = Instantiate(contentPrefab, transform);
+            OnContentDrawn?.Invoke(data);
+
+            Debug.Log(data.Id + "=Displayed=");
+        });
+        removed.ForEach(data =>
+        {
+            for(int i = 0; i < transform.childCount; i++)
+            {
+                if(data == transform.GetChild(i).GetComponent<StockpileListItem>().StockpileData.Id)
+                {
+                    Destroy(transform.GetChild(i).gameObject);
+                }
+            } 
         });
     }
 

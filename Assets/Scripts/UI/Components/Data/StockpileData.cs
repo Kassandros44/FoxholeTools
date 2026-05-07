@@ -20,63 +20,29 @@ public class StockpileData : MonoBehaviour
     private string stockpileName;
 
     [SerializeField]
-    private UnityEvent<ViewArgs> updateView;
-
-    public class ViewArgs { 
-        public List<Crate> args1;
-        public string args2;
-
-        public ViewArgs() { }
-
-        public ViewArgs(List<Crate> crates, string name)
-        {
-            args1 = crates;
-            args2 = name;
-        }
-    }
+    private UnityEvent<List<Crate>, string> updateView;
 
     private void Start()
     {
 
-        StockpileListItem.OnViewChange += (object sender, string Id) => { 
-            _Id = Id;
-            //updateView?.Invoke(new ViewArgs(GetStockpileCrates(Id), GetStockpileName(Id)));
-            StartCoroutine(ViewChangeEnumerator(Id));
+        StockpileListItem.OnViewChange += (object sender, StockpileModel.idenityData idenityData) =>
+        {
+            GetStockpileCrates(idenityData, (callback) =>
+            {
+                _Id = idenityData.Id;
+                crates = callback;
+                stockpileName = idenityData.name;
+                updateView?.Invoke(callback, idenityData.name);
+            });
         };
-
-        //GetStockpileCrates("64a7ca27767c2783748ab63f");
     }
 
-    private IEnumerator ViewChangeEnumerator(string id)
+    public void GetStockpileCrates(StockpileModel.idenityData idenityData, Action<List<Crate>> callback)
     {
-        ViewArgs args = new ViewArgs();
-        yield return StartCoroutine(GetStockpileCrates(id));
-        args.args1 = crates;
-        yield return StartCoroutine(GetStockpileName(id));
-        args.args2 = stockpileName;
-        Debug.Log(args.ToJson());
-        updateView?.Invoke(args);
-    }
-
-    public IEnumerator GetStockpileCrates(string Id)
-    {
-        string url = $"{Helper.apiHost + Helper.apiPort}/stockpile/crates/{Id}";
-        WebRequests.Get(url, (error) => { }, (data) => { 
-            crates = JsonConvert.DeserializeObject<List<Crate>>(data);
-        });
-        yield return crates;
-        yield return new WaitUntil(() => crates != null);
-    }
-
-    //needs further thought
-    public IEnumerator GetStockpileName(string Id)
-    {
-        string url = $"{Helper.apiHost + Helper.apiPort}/stockpile/name/{Id}";
+        string url = $"{Helper.apiHost + Helper.apiPort}/stockpile/crates/{idenityData.Id}";
         WebRequests.Get(url, (error) => { }, (data) => {
-            stockpileName = JsonConvert.DeserializeObject<string>(data);
+            callback?.Invoke(JsonConvert.DeserializeObject<List<Crate>>(data));
         });
-        yield return stockpileName;
-        yield return new WaitUntil(() => stockpileName != "");
     }
 
 }
